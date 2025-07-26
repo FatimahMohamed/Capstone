@@ -1,0 +1,34 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}Dashboard - Gratitude Journal{% endblock %}
+
+{% block content %}
+<h1>Your Gratitude Dashboard</h1>
+
+<p>Welcome back, <strong>{{ user.username }}</strong>!</p>
+
+<div style="background-color: #e7f3ff; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <h3>Quick Stats</h3>
+    <p>📝 Journal entries: <strong>Coming soon!</strong></p>
+    <p>🗓️ Days active: <strong>Coming soon!</strong></p>
+    <p>✨ Gratitude streak: <strong>Coming soon!</strong></p>
+</div>
+
+<div style="margin: 30px 0;">
+    <h3>What would you like to do?</h3>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="btn" style="background-color: #28a745;">Write New Entry</button>
+        <button class="btn" style="background-color: #17a2b8;">View Past Entries</button>
+        <button class="btn" style="background-color: #ffc107; color: #212529;">Weekly Review</button>
+    </div>
+</div>
+
+<div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <h4>💡 Gratitude Tip of the Day</h4>
+    <p><em>"Take a moment to appreciate something small that happened today. It could be as simple as a warm cup of coffee, a smile from a stranger, or a moment of quiet peace."</em></p>
+</div>
+
+<p style="margin-top: 30px; font-style: italic; color: #666;">
+    Remember: Gratitude turns what we have into enough. Start your entry today!
+</p>
+{% endblock %}

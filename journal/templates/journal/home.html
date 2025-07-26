@@ -1,0 +1,35 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}Home - Gratitude Journal{% endblock %}
+
+{% block content %}
+<h1>Welcome to Gratitude Journal</h1>
+
+{% if user.is_authenticated %}
+    <p>Hello, <strong>{{ user.username }}</strong>! Welcome back to your gratitude journal.</p>
+    <p>This is your personal space for recording daily moments of gratitude and positivity.</p>
+    
+    <div style="margin: 20px 0;">
+        <a href="{% url 'journal:dashboard' %}" class="btn">Go to Dashboard</a>
+    </div>
+    
+    <p><em>Start your gratitude journey today and discover the power of positive thinking!</em></p>
+{% else %}
+    <p>Your personal space for daily gratitude entries and positive reflection.</p>
+    
+    <h2>Why Keep a Gratitude Journal?</h2>
+    <ul>
+        <li>Improve mental well-being and happiness</li>
+        <li>Focus on positive aspects of your life</li>
+        <li>Develop a habit of mindful reflection</li>
+        <li>Track your personal growth over time</li>
+    </ul>
+    
+    <div style="margin: 20px 0;">
+        <a href="{% url 'journal:register' %}" class="btn">Get Started</a>
+        <a href="{% url 'journal:login' %}" class="btn" style="background-color: #6c757d;">Login</a>
+    </div>
+    
+    <p><em>Join thousands of people who have transformed their lives through gratitude!</em></p>
+{% endif %}
+{% endblock %}
