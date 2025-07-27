@@ -1,0 +1,54 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}Profile - Gratitude Journal{% endblock %}
+
+{% block content %}
+<h1>Your Profile</h1>
+
+<div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+    <h3>Account Information</h3>
+    
+    <div style="margin-bottom: 15px;">
+        <strong>Username:</strong> {{ user.username }}
+    </div>
+    
+    {% if user.first_name or user.last_name %}
+    <div style="margin-bottom: 15px;">
+        <strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}
+    </div>
+    {% endif %}
+    
+    {% if user.email %}
+    <div style="margin-bottom: 15px;">
+        <strong>Email:</strong> {{ user.email }}
+    </div>
+    {% endif %}
+    
+    <div style="margin-bottom: 15px;">
+        <strong>Member since:</strong> {{ user.date_joined|date:"F d, Y" }}
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <strong>Last login:</strong> {{ user.last_login|date:"F d, Y g:i A" }}
+    </div>
+</div>
+
+<div style="margin: 30px 0;">
+    <h3>Account Actions</h3>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="{% url 'journal:change_password' %}" class="btn" style="background-color: #ffc107; color: #212529;">Change Password</a>
+        <a href="{% url 'journal:dashboard' %}" class="btn">Back to Dashboard</a>
+    </div>
+</div>
+
+<div style="background-color: #e7f3ff; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <h4>📊 Your Gratitude Journey</h4>
+    <p>Here's a quick overview of your gratitude practice:</p>
+    <ul>
+        <li>📝 Total entries: <strong>Coming soon!</strong></li>
+        <li>📅 Days active: <strong>Coming soon!</strong></li>
+        <li>🔥 Current streak: <strong>Coming soon!</strong></li>
+        <li>⭐ Favorite gratitude themes: <strong>Coming soon!</strong></li>
+    </ul>
+</div>
+{% endblock %}

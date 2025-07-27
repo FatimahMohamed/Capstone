@@ -84,6 +84,7 @@
             <a href="{% url 'journal:home' %}">Home</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'journal:dashboard' %}">Dashboard</a>
+                <a href="{% url 'journal:profile' %}">Profile</a>
                 <a href="{% url 'journal:logout' %}">Logout ({{ user.username }})</a>
             {% else %}
                 <a href="{% url 'journal:login' %}">Login</a>
