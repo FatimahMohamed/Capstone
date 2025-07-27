@@ -6,30 +6,71 @@
 <h1>Welcome to Gratitude Journal</h1>
 
 {% if user.is_authenticated %}
-    <p>Hello, <strong>{{ user.username }}</strong>! Welcome back to your gratitude journal.</p>
-    <p>This is your personal space for recording daily moments of gratitude and positivity.</p>
+    {% if user.first_name %}
+        <p>Hello, <strong>{{ user.first_name }}</strong>! Welcome back to your gratitude journal.</p>
+    {% else %}
+        <p>Hello, <strong>{{ user.username }}</strong>! Welcome back to your gratitude journal.</p>
+    {% endif %}
     
-    <div style="margin: 20px 0;">
-        <a href="{% url 'journal:dashboard' %}" class="btn">Go to Dashboard</a>
+    <div style="background-color: #e7f3ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3>🌟 Your Journey at a Glance</h3>
+        <p>This is your personal space for recording daily moments of gratitude and positivity.</p>
+        <div style="margin: 15px 0;">
+            <p>📅 Member since: <strong>{{ user.date_joined|date:"F Y" }}</strong></p>
+            <p>📧 Email: <strong>{{ user.email|default:"Not provided" }}</strong></p>
+        </div>
     </div>
     
-    <p><em>Start your gratitude journey today and discover the power of positive thinking!</em></p>
+    <div style="margin: 20px 0;">
+        <a href="{% url 'journal:dashboard' %}" class="btn" style="font-size: 18px; padding: 15px 25px;">Go to Dashboard</a>
+    </div>
+    
+    <div style="background-color: #d4edda; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <h4>🎯 Quick Actions</h4>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+            <button class="btn" style="background-color: #28a745;">Write Today's Entry</button>
+            <a href="{% url 'journal:profile' %}" class="btn" style="background-color: #6c757d;">View Profile</a>
+        </div>
+    </div>
+    
+    <p style="font-style: italic; color: #666; text-align: center; margin: 30px 0;">
+        "Start your gratitude journey today and discover the power of positive thinking!"
+    </p>
 {% else %}
-    <p>Your personal space for daily gratitude entries and positive reflection.</p>
-    
-    <h2>Why Keep a Gratitude Journal?</h2>
-    <ul>
-        <li>Improve mental well-being and happiness</li>
-        <li>Focus on positive aspects of your life</li>
-        <li>Develop a habit of mindful reflection</li>
-        <li>Track your personal growth over time</li>
-    </ul>
-    
-    <div style="margin: 20px 0;">
-        <a href="{% url 'journal:register' %}" class="btn">Get Started</a>
-        <a href="{% url 'journal:login' %}" class="btn" style="background-color: #6c757d;">Login</a>
+    <div style="text-align: center; margin: 20px 0;">
+        <p style="font-size: 18px; color: #666;">Your personal space for daily gratitude entries and positive reflection.</p>
     </div>
     
-    <p><em>Join thousands of people who have transformed their lives through gratitude!</em></p>
+    <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; margin: 30px 0;">
+        <h2 style="color: #007bff; margin-top: 0;">🌱 Why Keep a Gratitude Journal?</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+            <div>
+                <h4>😊 Mental Well-being</h4>
+                <p>Improve happiness and reduce stress through positive thinking</p>
+            </div>
+            <div>
+                <h4>🎯 Focus & Clarity</h4>
+                <p>Concentrate on positive aspects and meaningful moments</p>
+            </div>
+            <div>
+                <h4>🧘 Mindful Reflection</h4>
+                <p>Develop a daily habit of thoughtful appreciation</p>
+            </div>
+            <div>
+                <h4>📈 Personal Growth</h4>
+                <p>Track your journey and see progress over time</p>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{% url 'journal:register' %}" class="btn" style="font-size: 18px; padding: 15px 25px; margin: 10px;">Get Started Free</a>
+        <a href="{% url 'journal:login' %}" class="btn" style="background-color: #6c757d; font-size: 16px; padding: 12px 20px; margin: 10px;">I Have an Account</a>
+    </div>
+    
+    <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; margin: 30px 0; text-align: center;">
+        <h3 style="margin-top: 0; color: #856404;">✨ Join Our Community</h3>
+        <p style="margin-bottom: 0;">Join thousands of people who have transformed their lives through daily gratitude practice!</p>
+    </div>
 {% endif %}
 {% endblock %}

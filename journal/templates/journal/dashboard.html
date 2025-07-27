@@ -5,30 +5,65 @@
 {% block content %}
 <h1>Your Gratitude Dashboard</h1>
 
-<p>Welcome back, <strong>{{ user.username }}</strong>!</p>
+{% if user.first_name %}
+    <p>Welcome back, <strong>{{ user.first_name }}</strong>!</p>
+{% else %}
+    <p>Welcome back, <strong>{{ user.username }}</strong>!</p>
+{% endif %}
 
 <div style="background-color: #e7f3ff; padding: 15px; border-radius: 5px; margin: 20px 0;">
-    <h3>Quick Stats</h3>
-    <p>📝 Journal entries: <strong>Coming soon!</strong></p>
-    <p>🗓️ Days active: <strong>Coming soon!</strong></p>
-    <p>✨ Gratitude streak: <strong>Coming soon!</strong></p>
-</div>
-
-<div style="margin: 30px 0;">
-    <h3>What would you like to do?</h3>
-    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn" style="background-color: #28a745;">Write New Entry</button>
-        <button class="btn" style="background-color: #17a2b8;">View Past Entries</button>
-        <button class="btn" style="background-color: #ffc107; color: #212529;">Weekly Review</button>
+    <h3>📊 Quick Stats</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        <div style="text-align: center;">
+            <div style="font-size: 24px; font-weight: bold; color: #007bff;">0</div>
+            <div>📝 Journal Entries</div>
+        </div>
+        <div style="text-align: center;">
+            <div style="font-size: 24px; font-weight: bold; color: #28a745;">0</div>
+            <div>🗓️ Days Active</div>
+        </div>
+        <div style="text-align: center;">
+            <div style="font-size: 24px; font-weight: bold; color: #ffc107;">0</div>
+            <div>🔥 Current Streak</div>
+        </div>
     </div>
 </div>
 
-<div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
-    <h4>💡 Gratitude Tip of the Day</h4>
-    <p><em>"Take a moment to appreciate something small that happened today. It could be as simple as a warm cup of coffee, a smile from a stranger, or a moment of quiet peace."</em></p>
+<div style="margin: 30px 0;">
+    <h3>What would you like to do today?</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+        
+        <div style="background-color: #d4edda; padding: 20px; border-radius: 8px; text-align: center;">
+            <h4 style="margin-top: 0; color: #155724;">✍️ Write New Entry</h4>
+            <p>Share what you're grateful for today</p>
+            <button class="btn" style="background-color: #28a745;">Start Writing</button>
+        </div>
+        
+        <div style="background-color: #d1ecf1; padding: 20px; border-radius: 8px; text-align: center;">
+            <h4 style="margin-top: 0; color: #0c5460;">📖 View Past Entries</h4>
+            <p>Read and reflect on your gratitude journey</p>
+            <button class="btn" style="background-color: #17a2b8;">Browse Entries</button>
+        </div>
+        
+        <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; text-align: center;">
+            <h4 style="margin-top: 0; color: #856404;">📈 Weekly Review</h4>
+            <p>See your progress and insights</p>
+            <button class="btn" style="background-color: #ffc107; color: #212529;">View Report</button>
+        </div>
+    </div>
 </div>
 
-<p style="margin-top: 30px; font-style: italic; color: #666;">
-    Remember: Gratitude turns what we have into enough. Start your entry today!
-</p>
+<div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #007bff;">
+    <h4 style="margin-top: 0;">💡 Today's Gratitude Prompt</h4>
+    <p style="font-style: italic; margin-bottom: 0;">
+        "Think of someone who made you smile today. What did they do, and how did it make you feel? Take a moment to appreciate the positive impact others have on your life."
+    </p>
+</div>
+
+<div style="margin: 30px 0; text-align: center;">
+    <p style="font-style: italic; color: #666; font-size: 18px;">
+        "Gratitude makes sense of our past, brings peace for today, and creates a vision for tomorrow." 
+    </p>
+    <p style="color: #999; font-size: 14px;">— Melody Beattie</p>
+</div>
 {% endblock %}
