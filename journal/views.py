@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .forms import CustomUserCreationForm
 
 
 def home(request):
@@ -13,7 +13,7 @@ def home(request):
 def register_view(request):
     """User registration view"""
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
@@ -21,7 +21,7 @@ def register_view(request):
             login(request, user)
             return redirect('journal:home')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'journal/register.html', {'form': form})
 
 
