@@ -1,0 +1,173 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}Delete Entry - {{ entry.created_at|date:"M d, Y" }} - Gratitude Journal{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <!-- Navigation -->
+            <div class="mb-3">
+                <a href="{% url 'journal:entry_detail' entry.id %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Back to Entry
+                </a>
+            </div>
+
+            <!-- Confirmation Card -->
+            <div class="card shadow border-0">
+                <!-- Header -->
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-exclamation-triangle"></i> Delete Entry
+                    </h4>
+                    <small class="opacity-75">This action cannot be undone</small>
+                </div>
+
+                <!-- Entry Preview -->
+                <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-warning"></i> Are you sure?
+                        </h5>
+                        <p class="mb-0">
+                            You are about to permanently delete this gratitude entry. 
+                            This action cannot be undone.
+                        </p>
+                    </div>
+
+                    <!-- Entry Details -->
+                    <div class="entry-preview bg-light p-3 rounded mb-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <h6 class="text-primary mb-1">
+                                    {{ entry.created_at|date:"F d, Y" }}
+                                </h6>
+                                <small class="text-muted">
+                                    {{ entry.created_at|date:"g:i A" }}
+                                </small>
+                            </div>
+                            <span class="badge badge-{% if entry.mood == 'excellent' %}success{% elif entry.mood == 'good' %}primary{% elif entry.mood == 'neutral' %}secondary{% elif entry.mood == 'difficult' %}warning{% else %}danger{% endif %}">
+                                {{ entry.get_mood_display }}
+                            </span>
+                        </div>
+                        
+                        <div class="content-preview">
+                            <p class="mb-2">
+                                {{ entry.content|truncatewords:30|linebreaksbr }}
+                            </p>
+                            
+                            {% if entry.tags %}
+                                <div class="mb-2">
+                                    <small class="text-muted">Tags: </small>
+                                    {% for tag in entry.tags|slice:":5" %}
+                                        <span class="badge badge-light">{{ tag }}</span>
+                                    {% endfor %}
+                                    {% if entry.tags|length > 5 %}
+                                        <span class="text-muted">+{{ entry.tags|length|add:"-5" }} more</span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            
+                            <small class="text-muted">
+                                {% if entry.is_private %}
+                                    <i class="fas fa-lock"></i> Private Entry
+                                {% else %}
+                                    <i class="fas fa-globe"></i> Shareable Entry
+                                {% endif %}
+                                
+                                {% if entry.challenge_gratitude or entry.challenge_kindness or entry.challenge_mindfulness %}
+                                    | Challenges:
+                                    {% if entry.challenge_gratitude %}<i class="fas fa-heart text-danger"></i>{% endif %}
+                                    {% if entry.challenge_kindness %}<i class="fas fa-hands-helping text-success"></i>{% endif %}
+                                    {% if entry.challenge_mindfulness %}<i class="fas fa-leaf text-info"></i>{% endif %}
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Confirmation Form -->
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger btn-lg btn-block">
+                                    <i class="fas fa-trash"></i> Yes, Delete Entry
+                                </button>
+                            </div>
+                            <div class="col">
+                                <a href="{% url 'journal:entry_detail' entry.id %}" 
+                                   class="btn btn-outline-secondary btn-lg btn-block">
+                                    <i class="fas fa-times"></i> Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="card-footer bg-light">
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="text-muted mb-2">
+                                <i class="fas fa-info-circle"></i> Alternative Options
+                            </h6>
+                            <ul class="list-unstyled mb-0 small text-muted">
+                                <li>
+                                    <i class="fas fa-edit text-primary"></i> 
+                                    <a href="{% url 'journal:edit_entry' entry.id %}">Edit this entry</a> 
+                                    instead of deleting
+                                </li>
+                                <li>
+                                    <i class="fas fa-lock text-warning"></i> 
+                                    Make it private if you want to keep it but hide it
+                                </li>
+                                <li>
+                                    <i class="fas fa-download text-info"></i> 
+                                    Consider copying the content before deleting
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Impact -->
+            {% if total_entries %}
+                <div class="mt-3">
+                    <div class="alert alert-info">
+                        <small>
+                            <i class="fas fa-chart-bar"></i> 
+                            <strong>Impact:</strong> After deletion, you will have {{ total_entries|add:"-1" }} 
+                            entr{{ total_entries|add:"-1"|pluralize:"y,ies" }} remaining in your journal.
+                        </small>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.entry-preview {
+    border-left: 4px solid #dc3545;
+}
+
+.content-preview {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.card-header.bg-danger {
+    background-color: #dc3545 !important;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}Edit Entry - {{ entry.created_at|date:"M d, Y" }} - Gratitude Journal{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <!-- Navigation -->
+            <div class="mb-3">
+                <a href="{% url 'journal:entry_detail' entry.id %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Back to Entry
+                </a>
+            </div>
+
+            <!-- Form Card -->
+            <div class="card shadow-sm border-0">
+                <!-- Header -->
+                <div class="card-header bg-warning text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-edit"></i> Edit Gratitude Entry
+                    </h4>
+                    <small class="opacity-75">
+                        Originally created on {{ entry.created_at|date:"F d, Y" }} at {{ entry.created_at|date:"g:i A" }}
+                    </small>
+                </div>
+
+                <!-- Form -->
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Main Content Field -->
+                        <div class="form-group mb-4">
+                            <label for="{{ form.content.id_for_label }}" class="form-label h5 text-primary">
+                                <i class="fas fa-heart"></i> What are you grateful for?
+                            </label>
+                            <small class="form-text text-muted mb-2">
+                                Update your gratitude reflection
+                            </small>
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.content.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Mood Field -->
+                        <div class="form-group mb-4">
+                            <label for="{{ form.mood.id_for_label }}" class="form-label h6 text-primary">
+                                <i class="fas fa-smile"></i> How were you feeling?
+                            </label>
+                            {{ form.mood }}
+                            {% if form.mood.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.mood.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Tags Field -->
+                        <div class="form-group mb-4">
+                            <label for="{{ form.tags.id_for_label }}" class="form-label h6 text-primary">
+                                <i class="fas fa-tags"></i> Tags (Optional)
+                            </label>
+                            <small class="form-text text-muted mb-2">
+                                Add or modify tags separated by commas
+                            </small>
+                            {{ form.tags }}
+                            {% if form.tags.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.tags.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Challenges Section -->
+                        <div class="form-group mb-4">
+                            <h6 class="text-primary mb-3">
+                                <i class="fas fa-star"></i> Challenges Completed (Optional)
+                            </h6>
+                            <small class="form-text text-muted mb-3">
+                                Update the challenges you completed on this day
+                            </small>
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-2">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form.challenge_gratitude }}
+                                        <label class="custom-control-label" for="{{ form.challenge_gratitude.id_for_label }}">
+                                            <i class="fas fa-heart text-danger"></i> Gratitude Practice
+                                        </label>
+                                        <small class="form-text text-muted">Practiced gratitude meditation</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form.challenge_kindness }}
+                                        <label class="custom-control-label" for="{{ form.challenge_kindness.id_for_label }}">
+                                            <i class="fas fa-hands-helping text-success"></i> Act of Kindness
+                                        </label>
+                                        <small class="form-text text-muted">Helped someone that day</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form.challenge_mindfulness }}
+                                        <label class="custom-control-label" for="{{ form.challenge_mindfulness.id_for_label }}">
+                                            <i class="fas fa-leaf text-info"></i> Mindfulness
+                                        </label>
+                                        <small class="form-text text-muted">Practiced mindfulness</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Privacy Field -->
+                        <div class="form-group mb-4">
+                            <div class="custom-control custom-checkbox">
+                                {{ form.is_private }}
+                                <label class="custom-control-label" for="{{ form.is_private.id_for_label }}">
+                                    <i class="fas fa-lock"></i> Keep this entry private
+                                </label>
+                                <small class="form-text text-muted">
+                                    Private entries are only visible to you
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="form-group mb-0">
+                            <div class="row">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-warning btn-lg btn-block">
+                                        <i class="fas fa-save"></i> Update Entry
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="{% url 'journal:entry_detail' entry.id %}" class="btn btn-outline-secondary btn-lg">
+                                        Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Entry History -->
+                <div class="card-footer bg-light">
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="text-muted mb-2">
+                                <i class="fas fa-history"></i> Entry History
+                            </h6>
+                            <small class="text-muted">
+                                <strong>Created:</strong> {{ entry.created_at|date:"F d, Y g:i A" }}<br>
+                                {% if entry.updated_at != entry.created_at %}
+                                    <strong>Last Updated:</strong> {{ entry.updated_at|date:"F d, Y g:i A" }}
+                                {% else %}
+                                    <em>Not yet updated</em>
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="col-auto">
+                            <a href="{% url 'journal:delete_entry' entry.id %}" 
+                               class="btn btn-outline-danger btn-sm"
+                               onclick="return confirm('Are you sure you want to delete this entry?')">
+                                <i class="fas fa-trash"></i> Delete Entry
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+.custom-control-label {
+    font-weight: 500;
+}
+
+textarea.form-control {
+    min-height: 120px;
+}
+
+.card-header.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.card-header.bg-warning small {
+    color: rgba(33, 37, 41, 0.75) !important;
+}
+</style>
+{% endblock %}

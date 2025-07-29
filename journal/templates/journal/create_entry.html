@@ -1,0 +1,182 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}Create New Entry - Gratitude Journal{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <!-- Navigation -->
+            <div class="mb-3">
+                <a href="{% url 'journal:entry_list' %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Back to Entries
+                </a>
+            </div>
+
+            <!-- Form Card -->
+            <div class="card shadow-sm border-0">
+                <!-- Header -->
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-plus-circle"></i> Create New Gratitude Entry
+                    </h4>
+                    <small class="opacity-75">Take a moment to reflect on what you're grateful for today</small>
+                </div>
+
+                <!-- Form -->
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Main Content Field -->
+                        <div class="form-group mb-4">
+                            <label for="{{ form.content.id_for_label }}" class="form-label h5 text-primary">
+                                <i class="fas fa-heart"></i> What are you grateful for today?
+                            </label>
+                            <small class="form-text text-muted mb-2">
+                                Share three things you're grateful for, or describe a moment that brought you joy.
+                            </small>
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.content.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Mood Field -->
+                        <div class="form-group mb-4">
+                            <label for="{{ form.mood.id_for_label }}" class="form-label h6 text-primary">
+                                <i class="fas fa-smile"></i> How are you feeling today?
+                            </label>
+                            {{ form.mood }}
+                            {% if form.mood.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.mood.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Tags Field -->
+                        <div class="form-group mb-4">
+                            <label for="{{ form.tags.id_for_label }}" class="form-label h6 text-primary">
+                                <i class="fas fa-tags"></i> Tags (Optional)
+                            </label>
+                            <small class="form-text text-muted mb-2">
+                                Add tags separated by commas (e.g., family, work, health, friends)
+                            </small>
+                            {{ form.tags }}
+                            {% if form.tags.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.tags.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Challenges Section -->
+                        <div class="form-group mb-4">
+                            <h6 class="text-primary mb-3">
+                                <i class="fas fa-star"></i> Today's Challenges (Optional)
+                            </h6>
+                            <small class="form-text text-muted mb-3">
+                                Check any challenges you completed today to build positive habits
+                            </small>
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-2">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form.challenge_gratitude }}
+                                        <label class="custom-control-label" for="{{ form.challenge_gratitude.id_for_label }}">
+                                            <i class="fas fa-heart text-danger"></i> Gratitude Practice
+                                        </label>
+                                        <small class="form-text text-muted">Practiced gratitude meditation</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form.challenge_kindness }}
+                                        <label class="custom-control-label" for="{{ form.challenge_kindness.id_for_label }}">
+                                            <i class="fas fa-hands-helping text-success"></i> Act of Kindness
+                                        </label>
+                                        <small class="form-text text-muted">Helped someone today</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form.challenge_mindfulness }}
+                                        <label class="custom-control-label" for="{{ form.challenge_mindfulness.id_for_label }}">
+                                            <i class="fas fa-leaf text-info"></i> Mindfulness
+                                        </label>
+                                        <small class="form-text text-muted">Practiced mindfulness</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Privacy Field -->
+                        <div class="form-group mb-4">
+                            <div class="custom-control custom-checkbox">
+                                {{ form.is_private }}
+                                <label class="custom-control-label" for="{{ form.is_private.id_for_label }}">
+                                    <i class="fas fa-lock"></i> Keep this entry private
+                                </label>
+                                <small class="form-text text-muted">
+                                    Private entries are only visible to you
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="form-group mb-0">
+                            <div class="row">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                        <i class="fas fa-save"></i> Save Entry
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="{% url 'journal:entry_list' %}" class="btn btn-outline-secondary btn-lg">
+                                        Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Helpful Tips -->
+                <div class="card-footer bg-light">
+                    <h6 class="text-muted mb-2">
+                        <i class="fas fa-lightbulb"></i> Gratitude Tips
+                    </h6>
+                    <ul class="list-unstyled mb-0 small text-muted">
+                        <li><i class="fas fa-check text-success"></i> Be specific - instead of "I'm grateful for my family," try "I'm grateful for the encouraging text my sister sent me"</li>
+                        <li><i class="fas fa-check text-success"></i> Focus on people who have impacted your life positively</li>
+                        <li><i class="fas fa-check text-success"></i> Notice small, everyday moments that bring you joy</li>
+                        <li><i class="fas fa-check text-success"></i> Consider challenges that helped you grow</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.custom-control-label {
+    font-weight: 500;
+}
+
+textarea.form-control {
+    min-height: 120px;
+}
+</style>
+{% endblock %}
