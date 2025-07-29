@@ -1,0 +1,164 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}My Journal Entries - Gratitude Journal{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Header Section -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h2 text-primary">
+                        <i class="fas fa-book-open"></i> My Journal Entries
+                    </h1>
+                    <p class="text-muted">
+                        {% if page_obj.paginator.count > 0 %}
+                            You have {{ page_obj.paginator.count }} gratitude entr{{ page_obj.paginator.count|pluralize:"y,ies" }}
+                        {% else %}
+                            Start your gratitude journey by creating your first entry
+                        {% endif %}
+                    </p>
+                </div>
+                <div>
+                    <a href="{% url 'journal:create_entry' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Entry
+                    </a>
+                </div>
+            </div>
+
+            {% if page_obj %}
+                <!-- Entries List -->
+                <div class="row">
+                    {% for entry in page_obj %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 shadow-sm border-0">
+                                <div class="card-header bg-white border-0 pb-0">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="card-title text-primary mb-1">
+                                                {{ entry.created_at|date:"M d, Y" }}
+                                            </h6>
+                                            <small class="text-muted">
+                                                {{ entry.created_at|date:"g:i A" }}
+                                            </small>
+                                        </div>
+                                        <div class="mood-indicator">
+                                            <span class="badge badge-{% if entry.mood == 'excellent' %}success{% elif entry.mood == 'good' %}primary{% elif entry.mood == 'neutral' %}secondary{% elif entry.mood == 'difficult' %}warning{% else %}danger{% endif %}">
+                                                {{ entry.get_mood_display }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-2">
+                                    <!-- Preview of content -->
+                                    <p class="card-text">
+                                        {{ entry.content|truncatewords:20|linebreaksbr }}
+                                    </p>
+                                    
+                                    <!-- Tags -->
+                                    {% if entry.tags %}
+                                        <div class="mb-2">
+                                            {% for tag in entry.tags|slice:":3" %}
+                                                <span class="badge badge-light mr-1">{{ tag }}</span>
+                                            {% endfor %}
+                                            {% if entry.tags|length > 3 %}
+                                                <span class="text-muted">+{{ entry.tags|length|add:"-3" }} more</span>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <!-- Privacy indicator -->
+                                    {% if entry.is_private %}
+                                        <small class="text-muted">
+                                            <i class="fas fa-lock"></i> Private
+                                        </small>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer bg-white border-0">
+                                    <div class="btn-group w-100" role="group">
+                                        <a href="{% url 'journal:entry_detail' entry.id %}" 
+                                           class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-eye"></i> View
+                                        </a>
+                                        <a href="{% url 'journal:edit_entry' entry.id %}" 
+                                           class="btn btn-outline-secondary btn-sm">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <a href="{% url 'journal:delete_entry' entry.id %}" 
+                                           class="btn btn-outline-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                    <nav aria-label="Entry pagination" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1" aria-label="First">
+                                        <span aria-hidden="true">&laquo;&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                        <span aria-hidden="true">&raquo;&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            {% else %}
+                <!-- Empty State -->
+                <div class="row justify-content-center">
+                    <div class="col-md-6 text-center">
+                        <div class="empty-state py-5">
+                            <i class="fas fa-heart fa-4x text-muted mb-3"></i>
+                            <h3 class="text-muted">No Entries Yet</h3>
+                            <p class="text-muted">
+                                Start your gratitude journey by creating your first entry. 
+                                Reflecting on what you're grateful for can improve your mood and wellbeing.
+                            </p>
+                            <a href="{% url 'journal:create_entry' %}" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Create Your First Entry
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

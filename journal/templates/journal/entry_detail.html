@@ -1,0 +1,175 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}{{ entry.created_at|date:"M d, Y" }} - Gratitude Journal{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <!-- Navigation -->
+            <div class="mb-3">
+                <a href="{% url 'journal:entry_list' %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Back to Entries
+                </a>
+            </div>
+
+            <!-- Entry Card -->
+            <div class="card shadow-sm border-0">
+                <!-- Header -->
+                <div class="card-header bg-primary text-white">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h4 class="mb-0">
+                                <i class="fas fa-heart"></i> 
+                                {{ entry.created_at|date:"F d, Y" }}
+                            </h4>
+                            <small class="opacity-75">
+                                Created at {{ entry.created_at|date:"g:i A" }}
+                                {% if entry.updated_at != entry.created_at %}
+                                    | Updated {{ entry.updated_at|date:"M d, Y g:i A" }}
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="col-auto">
+                            <span class="badge badge-light">
+                                {{ entry.get_mood_display }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="card-body">
+                    <!-- Main Content -->
+                    <div class="mb-4">
+                        <h5 class="text-primary mb-3">What I'm Grateful For:</h5>
+                        <div class="content-display">
+                            {{ entry.content|linebreaksbr }}
+                        </div>
+                    </div>
+
+                    <!-- Additional Details -->
+                    <div class="row">
+                        <!-- Mood Section -->
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted mb-2">
+                                <i class="fas fa-smile"></i> Mood
+                            </h6>
+                            <span class="badge badge-{% if entry.mood == 'excellent' %}success{% elif entry.mood == 'good' %}primary{% elif entry.mood == 'neutral' %}secondary{% elif entry.mood == 'difficult' %}warning{% else %}danger{% endif %} p-2">
+                                {{ entry.get_mood_display }}
+                            </span>
+                        </div>
+
+                        <!-- Privacy Section -->
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted mb-2">
+                                <i class="fas fa-{% if entry.is_private %}lock{% else %}globe{% endif %}"></i> Privacy
+                            </h6>
+                            <span class="badge badge-{% if entry.is_private %}warning{% else %}info{% endif %} p-2">
+                                {% if entry.is_private %}Private{% else %}Shareable{% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Tags Section -->
+                    {% if entry.tags %}
+                        <div class="mb-3">
+                            <h6 class="text-muted mb-2">
+                                <i class="fas fa-tags"></i> Tags
+                            </h6>
+                            <div class="tags-display">
+                                {% for tag in entry.tags %}
+                                    <span class="badge badge-light mr-1 mb-1">{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Gratitude Challenges -->
+                    {% if entry.challenge_gratitude or entry.challenge_kindness or entry.challenge_mindfulness %}
+                        <div class="mb-3">
+                            <h6 class="text-muted mb-2">
+                                <i class="fas fa-star"></i> Challenges Completed
+                            </h6>
+                            <div class="challenges-display">
+                                {% if entry.challenge_gratitude %}
+                                    <span class="badge badge-success mr-1 mb-1">
+                                        <i class="fas fa-heart"></i> Gratitude
+                                    </span>
+                                {% endif %}
+                                {% if entry.challenge_kindness %}
+                                    <span class="badge badge-success mr-1 mb-1">
+                                        <i class="fas fa-hands-helping"></i> Kindness
+                                    </span>
+                                {% endif %}
+                                {% if entry.challenge_mindfulness %}
+                                    <span class="badge badge-success mr-1 mb-1">
+                                        <i class="fas fa-leaf"></i> Mindfulness
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Actions Footer -->
+                <div class="card-footer bg-light">
+                    <div class="row">
+                        <div class="col">
+                            <div class="btn-group w-100" role="group">
+                                <a href="{% url 'journal:edit_entry' entry.id %}" 
+                                   class="btn btn-outline-primary">
+                                    <i class="fas fa-edit"></i> Edit Entry
+                                </a>
+                                <a href="{% url 'journal:delete_entry' entry.id %}" 
+                                   class="btn btn-outline-danger">
+                                    <i class="fas fa-trash"></i> Delete Entry
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="mt-3 text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-clock"></i> 
+                            {% now "c" as now %}
+                            {% if entry.created_at|date:"Y-m-d" == now|date:"Y-m-d" %}
+                                Created today
+                            {% elif entry.created_at|date:"Y-m-d" == now|date:"Y-m-d"|add:"-1 day" %}
+                                Created yesterday
+                            {% else %}
+                                Created {{ entry.created_at|timesince }} ago
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.content-display {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid #007bff;
+}
+
+.tags-display .badge {
+    font-size: 0.9rem;
+}
+
+.challenges-display .badge {
+    font-size: 0.9rem;
+}
+
+.opacity-75 {
+    opacity: 0.75;
+}
+</style>
+{% endblock %}
