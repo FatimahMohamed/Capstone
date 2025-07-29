@@ -28,9 +28,7 @@ class GratitudeEntryForm(forms.ModelForm):
     
     class Meta:
         model = GratitudeEntry
-        fields = ['title', 'content', 'mood', 'tags', 'is_private',
-                  'challenge_gratitude', 'challenge_kindness',
-                  'challenge_mindfulness']
+        fields = ['title', 'content', 'mood', 'tags', 'is_private']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -50,15 +48,6 @@ class GratitudeEntryForm(forms.ModelForm):
             }),
             'is_private': forms.CheckboxInput(attrs={
                 'class': 'form-check-input'
-            }),
-            'challenge_gratitude': forms.CheckboxInput(attrs={
-                'class': 'custom-control-input'
-            }),
-            'challenge_kindness': forms.CheckboxInput(attrs={
-                'class': 'custom-control-input'
-            }),
-            'challenge_mindfulness': forms.CheckboxInput(attrs={
-                'class': 'custom-control-input'
             }),
         }
     

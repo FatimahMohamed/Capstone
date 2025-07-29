@@ -59,11 +59,11 @@
                             {% if entry.tags %}
                                 <div class="mb-2">
                                     <small class="text-muted">Tags: </small>
-                                    {% for tag in entry.tags|slice:":5" %}
+                                    {% for tag in entry.get_tags_list|slice:":5" %}
                                         <span class="badge badge-light">{{ tag }}</span>
                                     {% endfor %}
-                                    {% if entry.tags|length > 5 %}
-                                        <span class="text-muted">+{{ entry.tags|length|add:"-5" }} more</span>
+                                    {% if entry.get_tags_list|length > 5 %}
+                                        <span class="text-muted">+{{ entry.get_tags_list|length|add:"-5" }} more</span>
                                     {% endif %}
                                 </div>
                             {% endif %}
@@ -73,13 +73,6 @@
                                     <i class="fas fa-lock"></i> Private Entry
                                 {% else %}
                                     <i class="fas fa-globe"></i> Shareable Entry
-                                {% endif %}
-                                
-                                {% if entry.challenge_gratitude or entry.challenge_kindness or entry.challenge_mindfulness %}
-                                    | Challenges:
-                                    {% if entry.challenge_gratitude %}<i class="fas fa-heart text-danger"></i>{% endif %}
-                                    {% if entry.challenge_kindness %}<i class="fas fa-hands-helping text-success"></i>{% endif %}
-                                    {% if entry.challenge_mindfulness %}<i class="fas fa-leaf text-info"></i>{% endif %}
                                 {% endif %}
                             </small>
                         </div>

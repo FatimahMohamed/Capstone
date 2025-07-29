@@ -64,11 +64,11 @@
                                     <!-- Tags -->
                                     {% if entry.tags %}
                                         <div class="mb-2">
-                                            {% for tag in entry.tags|slice:":3" %}
+                                            {% for tag in entry.get_tags_list|slice:":3" %}
                                                 <span class="badge badge-light mr-1">{{ tag }}</span>
                                             {% endfor %}
-                                            {% if entry.tags|length > 3 %}
-                                                <span class="text-muted">+{{ entry.tags|length|add:"-3" }} more</span>
+                                            {% if entry.get_tags_list|length > 3 %}
+                                                <span class="text-muted">+{{ entry.get_tags_list|length|add:"-3" }} more</span>
                                             {% endif %}
                                         </div>
                                     {% endif %}

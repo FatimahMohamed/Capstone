@@ -85,35 +85,9 @@
                                 <i class="fas fa-tags"></i> Tags
                             </h6>
                             <div class="tags-display">
-                                {% for tag in entry.tags %}
+                                {% for tag in entry.get_tags_list %}
                                     <span class="badge badge-light mr-1 mb-1">{{ tag }}</span>
                                 {% endfor %}
-                            </div>
-                        </div>
-                    {% endif %}
-
-                    <!-- Gratitude Challenges -->
-                    {% if entry.challenge_gratitude or entry.challenge_kindness or entry.challenge_mindfulness %}
-                        <div class="mb-3">
-                            <h6 class="text-muted mb-2">
-                                <i class="fas fa-star"></i> Challenges Completed
-                            </h6>
-                            <div class="challenges-display">
-                                {% if entry.challenge_gratitude %}
-                                    <span class="badge badge-success mr-1 mb-1">
-                                        <i class="fas fa-heart"></i> Gratitude
-                                    </span>
-                                {% endif %}
-                                {% if entry.challenge_kindness %}
-                                    <span class="badge badge-success mr-1 mb-1">
-                                        <i class="fas fa-hands-helping"></i> Kindness
-                                    </span>
-                                {% endif %}
-                                {% if entry.challenge_mindfulness %}
-                                    <span class="badge badge-success mr-1 mb-1">
-                                        <i class="fas fa-leaf"></i> Mindfulness
-                                    </span>
-                                {% endif %}
                             </div>
                         </div>
                     {% endif %}
