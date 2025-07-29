@@ -15,15 +15,15 @@
     <h3>📊 Quick Stats</h3>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
         <div style="text-align: center;">
-            <div style="font-size: 24px; font-weight: bold; color: #007bff;">0</div>
-            <div>📝 Journal Entries</div>
+            <div style="font-size: 24px; font-weight: bold; color: #007bff;">{{ total_entries }}</div>
+            <div>📝 Journal Entr{{ total_entries|pluralize:"y,ies" }}</div>
         </div>
         <div style="text-align: center;">
-            <div style="font-size: 24px; font-weight: bold; color: #28a745;">0</div>
+            <div style="font-size: 24px; font-weight: bold; color: #28a745;">{{ total_entries }}</div>
             <div>🗓️ Days Active</div>
         </div>
         <div style="text-align: center;">
-            <div style="font-size: 24px; font-weight: bold; color: #ffc107;">0</div>
+            <div style="font-size: 24px; font-weight: bold; color: #ffc107;">{{ total_entries|default:"0" }}</div>
             <div>🔥 Current Streak</div>
         </div>
     </div>
@@ -36,22 +36,68 @@
         <div style="background-color: #d4edda; padding: 20px; border-radius: 8px; text-align: center;">
             <h4 style="margin-top: 0; color: #155724;">✍️ Write New Entry</h4>
             <p>Share what you're grateful for today</p>
-            <button class="btn" style="background-color: #28a745;">Start Writing</button>
+            <a href="{% url 'journal:create_entry' %}" class="btn" style="background-color: #28a745; color: white; text-decoration: none;">Start Writing</a>
         </div>
         
         <div style="background-color: #d1ecf1; padding: 20px; border-radius: 8px; text-align: center;">
             <h4 style="margin-top: 0; color: #0c5460;">📖 View Past Entries</h4>
             <p>Read and reflect on your gratitude journey</p>
-            <button class="btn" style="background-color: #17a2b8;">Browse Entries</button>
+            <a href="{% url 'journal:entry_list' %}" class="btn" style="background-color: #17a2b8; color: white; text-decoration: none;">Browse Entries</a>
         </div>
         
         <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; text-align: center;">
             <h4 style="margin-top: 0; color: #856404;">📈 Weekly Review</h4>
             <p>See your progress and insights</p>
-            <button class="btn" style="background-color: #ffc107; color: #212529;">View Report</button>
         </div>
     </div>
 </div>
+
+{% if recent_entries %}
+<div style="margin: 30px 0;">
+    <h3>📝 Recent Entries</h3>
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+        {% for entry in recent_entries %}
+            <div style="border-bottom: 1px solid #dee2e6; padding: 10px 0; {% if forloop.last %}border-bottom: none;{% endif %}">
+                <div style="display: flex; justify-content: between; align-items: start;">
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; color: #007bff; margin-bottom: 5px;">
+                            {{ entry.created_at|date:"M d, Y" }}
+                            <span style="background-color: {% if entry.mood == 'excellent' %}#28a745{% elif entry.mood == 'good' %}#007bff{% elif entry.mood == 'neutral' %}#6c757d{% elif entry.mood == 'difficult' %}#ffc107{% else %}#dc3545{% endif %}; color: white; padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: 10px;">
+                                {{ entry.get_mood_display }}
+                            </span>
+                        </div>
+                        <p style="margin: 5px 0; color: #666;">{{ entry.content|truncatewords:15 }}</p>
+                        <a href="{% url 'journal:entry_detail' entry.id %}" style="color: #007bff; text-decoration: none; font-size: 14px;">Read more →</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div style="text-align: center; margin-top: 15px;">
+            <a href="{% url 'journal:entry_list' %}" style="color: #007bff; text-decoration: none;">View all entries →</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if mood_stats %}
+<div style="margin: 30px 0;">
+    <h3>😊 Mood Overview</h3>
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
+            {% for mood_key, mood_data in mood_stats.items %}
+                {% if mood_data.count > 0 %}
+                    <div style="text-align: center; background-color: white; padding: 10px; border-radius: 5px;">
+                        <div style="font-size: 18px; font-weight: bold; color: {% if mood_key == 'excellent' %}#28a745{% elif mood_key == 'good' %}#007bff{% elif mood_key == 'neutral' %}#6c757d{% elif mood_key == 'difficult' %}#ffc107{% else %}#dc3545{% endif %};">
+                            {{ mood_data.count }}
+                        </div>
+                        <div style="font-size: 12px; color: #666;">{{ mood_data.label }}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #007bff;">
     <h4 style="margin-top: 0;">💡 Today's Gratitude Prompt</h4>
