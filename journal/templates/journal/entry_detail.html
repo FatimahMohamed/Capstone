@@ -40,6 +40,13 @@
 
                 <!-- Content -->
                 <div class="card-body">
+                    {% if entry.title %}
+                        <!-- Entry Title -->
+                        <div class="mb-3">
+                            <h4 class="text-dark mb-0">{{ entry.title }}</h4>
+                        </div>
+                    {% endif %}
+
                     <!-- Main Content -->
                     <div class="mb-4">
                         <h5 class="text-primary mb-3">What I'm Grateful For:</h5>

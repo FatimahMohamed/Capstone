@@ -51,6 +51,11 @@
                                     </div>
                                 </div>
                                 <div class="card-body pt-2">
+                                    {% if entry.title %}
+                                        <!-- Entry Title -->
+                                        <h6 class="card-title text-dark mb-2">{{ entry.title }}</h6>
+                                    {% endif %}
+                                    
                                     <!-- Preview of content -->
                                     <p class="card-text">
                                         {{ entry.content|truncatewords:20|linebreaksbr }}

@@ -28,7 +28,9 @@ class GratitudeEntryForm(forms.ModelForm):
     
     class Meta:
         model = GratitudeEntry
-        fields = ['title', 'content', 'mood', 'tags', 'is_private']
+        fields = ['title', 'content', 'mood', 'tags', 'is_private',
+                  'challenge_gratitude', 'challenge_kindness',
+                  'challenge_mindfulness']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -37,19 +39,36 @@ class GratitudeEntryForm(forms.ModelForm):
             'content': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 6,
-                'placeholder': 'What are you grateful for today? Share your thoughts and feelings...'
+                'placeholder': ('What are you grateful for today? '
+                               'Share your thoughts and feelings...')
             }),
             'mood': forms.Select(attrs={'class': 'form-control'}),
             'tags': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Optional: family, friends, health, work... (separate with commas)'
+                'placeholder': ('Optional: family, friends, health, work... '
+                                '(separate with commas)')
             }),
-            'is_private': forms.CheckboxInput(attrs={'class': 'form-check-input'})
+            'is_private': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+            'challenge_gratitude': forms.CheckboxInput(attrs={
+                'class': 'custom-control-input'
+            }),
+            'challenge_kindness': forms.CheckboxInput(attrs={
+                'class': 'custom-control-input'
+            }),
+            'challenge_mindfulness': forms.CheckboxInput(attrs={
+                'class': 'custom-control-input'
+            }),
         }
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Add help text to fields
-        self.fields['content'].help_text = 'Express what you\'re grateful for in detail'
+        self.fields['content'].help_text = (
+            'Express what you\'re grateful for in detail'
+        )
         self.fields['tags'].help_text = 'Help categorize your entry (optional)'
-        self.fields['is_private'].help_text = 'Uncheck to make this entry visible to others'
+        self.fields['is_private'].help_text = (
+            'Uncheck to make this entry visible to others'
+        )
