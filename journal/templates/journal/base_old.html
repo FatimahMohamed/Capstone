@@ -44,63 +44,72 @@
                 </a>
             {% endif %}
         </nav>
+        .alert {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav">
+            <a href="{% url 'journal:home' %}">Home</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'journal:dashboard' %}">Dashboard</a>
+                <a href="{% url 'journal:entry_list' %}">My Entries</a>
+                <a href="{% url 'journal:create_entry' %}">New Entry</a>
+                <a href="{% url 'journal:profile' %}">Profile</a>
+                <a href="{% url 'journal:logout' %}">Logout ({{ user.username }})</a>
+            {% else %}
+                <a href="{% url 'journal:login' %}">Login</a>
+                <a href="{% url 'journal:register' %}">Register</a>
+            {% endif %}
+        </nav>
 
         {% if messages %}
-            <div class="messages mt-3">
+            <div class="messages">
                 {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-triangle{% elif message.tags == 'warning' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
                 {% endfor %}
             </div>
         {% endif %}
 
-        <main class="content-area">
-            {% block content %}
-            {% endblock %}
-        </main>
+        {% block content %}
+        {% endblock %}
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Custom JavaScript -->
-    <script>
-        // Auto-dismiss alerts after 5 seconds
-        setTimeout(function() {
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => {
-                const bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
-            });
-        }, 5000);
-
-        // Add fade-in animation to content
-        document.addEventListener('DOMContentLoaded', function() {
-            const contentArea = document.querySelector('.content-area');
-            if (contentArea) {
-                contentArea.classList.add('fade-in');
-            }
-        });
-
-        // Form enhancement
-        document.addEventListener('DOMContentLoaded', function() {
-            const forms = document.querySelectorAll('form');
-            forms.forEach(form => {
-                form.addEventListener('submit', function() {
-                    const submitBtn = form.querySelector('button[type="submit"]');
-                    if (submitBtn) {
-                        submitBtn.classList.add('loading');
-                        submitBtn.disabled = true;
-                    }
-                });
-            });
-        });
-    </script>
-
-    {% block extra_js %}
-    {% endblock %}
 </body>
 </html>
