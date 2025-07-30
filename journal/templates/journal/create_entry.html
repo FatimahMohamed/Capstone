@@ -25,7 +25,7 @@
 
                 <!-- Form -->
                 <div class="card-body">
-                    <form method="post" novalidate>
+                    <form method="post" id="create-entry-form" novalidate>
                         {% csrf_token %}
                         
                         <!-- Title Field -->
@@ -91,12 +91,12 @@
 
                         <!-- Privacy Field -->
                         <div class="form-group mb-4">
-                            <div class="custom-control custom-checkbox">
+                            <div class="form-check">
                                 {{ form.is_private }}
-                                <label class="custom-control-label" for="{{ form.is_private.id_for_label }}">
+                                <label class="form-check-label" for="{{ form.is_private.id_for_label }}">
                                     <i class="fas fa-lock"></i> Keep this entry private
                                 </label>
-                                <small class="form-text text-muted">
+                                <small class="form-text text-muted d-block">
                                     Private entries are only visible to you
                                 </small>
                             </div>
@@ -104,9 +104,9 @@
 
                         <!-- Submit Buttons -->
                         <div class="form-group mb-0">
-                            <div class="row">
+                            <div class="row g-2">
                                 <div class="col">
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">
                                         <i class="fas fa-save"></i> Save Entry
                                     </button>
                                 </div>
