@@ -46,7 +46,12 @@
                                     {{ entry.created_at|date:"g:i A" }}
                                 </small>
                             </div>
-                            <span class="badge badge-{% if entry.mood == 'excellent' %}success{% elif entry.mood == 'good' %}primary{% elif entry.mood == 'neutral' %}secondary{% elif entry.mood == 'difficult' %}warning{% else %}danger{% endif %}">
+                            <span class="badge 
+                                {% if entry.mood == 'excellent' %}bg-success
+                                {% elif entry.mood == 'good' %}bg-primary
+                                {% elif entry.mood == 'okay' %}bg-secondary
+                                {% elif entry.mood == 'difficult' %}bg-warning
+                                {% else %}bg-danger{% endif %}">
                                 {{ entry.get_mood_display }}
                             </span>
                         </div>
@@ -60,7 +65,7 @@
                                 <div class="mb-2">
                                     <small class="text-muted">Tags: </small>
                                     {% for tag in entry.get_tags_list|slice:":5" %}
-                                        <span class="badge badge-light">{{ tag }}</span>
+                                        <span class="badge bg-light text-dark">{{ tag }}</span>
                                     {% endfor %}
                                     {% if entry.get_tags_list|length > 5 %}
                                         <span class="text-muted">+{{ entry.get_tags_list|length|add:"-5" }} more</span>
@@ -81,15 +86,15 @@
                     <!-- Confirmation Form -->
                     <form method="post">
                         {% csrf_token %}
-                        <div class="row">
+                        <div class="row g-2">
                             <div class="col">
-                                <button type="submit" class="btn btn-danger btn-lg btn-block">
+                                <button type="submit" class="btn btn-danger btn-lg w-100">
                                     <i class="fas fa-trash"></i> Yes, Delete Entry
                                 </button>
                             </div>
                             <div class="col">
                                 <a href="{% url 'journal:entry_detail' entry.id %}" 
-                                   class="btn btn-outline-secondary btn-lg btn-block">
+                                   class="btn btn-outline-secondary btn-lg w-100">
                                     <i class="fas fa-times"></i> Cancel
                                 </a>
                             </div>
