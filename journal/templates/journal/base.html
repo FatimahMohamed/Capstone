@@ -14,25 +14,30 @@
     <link rel="stylesheet" href="{% static 'journal/css/style.css' %}">
 </head>
 <body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()" data-bs-toggle="tooltip" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    
     <div class="main-container">
         <nav class="nav">
             <a href="{% url 'journal:home' %}">
                 <i class="fas fa-home"></i> Home
             </a>
             {% if user.is_authenticated %}
-                <a href="{% url 'journal:dashboard' %}">
+                <a href="{% url 'journal:dashboard' %}" data-bs-toggle="tooltip" title="Dashboard (Ctrl+D)">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                 </a>
-                <a href="{% url 'journal:entry_list' %}">
+                <a href="{% url 'journal:entry_list' %}" data-bs-toggle="tooltip" title="My Entries (Ctrl+L)">
                     <i class="fas fa-book-open"></i> My Entries
                 </a>
-                <a href="{% url 'journal:create_entry' %}">
+                <a href="{% url 'journal:create_entry' %}" data-bs-toggle="tooltip" title="New Entry (Ctrl+N)">
                     <i class="fas fa-plus-circle"></i> New Entry
                 </a>
-                <a href="{% url 'journal:profile' %}">
+                <a href="{% url 'journal:profile' %}" data-bs-toggle="tooltip" title="Profile">
                     <i class="fas fa-user-circle"></i> Profile
                 </a>
-                <a href="{% url 'journal:logout' %}">
+                <a href="{% url 'journal:logout' %}" data-bs-toggle="tooltip" title="Logout">
                     <i class="fas fa-sign-out-alt"></i> Logout ({{ user.username }})
                 </a>
             {% else %}
@@ -67,6 +72,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Custom JavaScript -->
+    <script src="{% static 'journal/js/app.js' %}"></script>
+    
+    <!-- Custom JavaScript -->
     <script>
         // Auto-dismiss alerts after 5 seconds
         setTimeout(function() {
@@ -95,7 +103,20 @@
                         submitBtn.classList.add('loading');
                         submitBtn.disabled = true;
                     }
+                    
+                    // Clear form draft on successful submit
+                    if (window.GratitudeJournal) {
+                        window.GratitudeJournal.clearFormData(form);
+                    }
                 });
+            });
+            
+            // Load form drafts if available
+            const entryForms = document.querySelectorAll('form[method="post"]');
+            entryForms.forEach(form => {
+                if (window.GratitudeJournal) {
+                    window.GratitudeJournal.loadFormData(form);
+                }
             });
         });
     </script>
