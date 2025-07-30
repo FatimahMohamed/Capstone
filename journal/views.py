@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.core.paginator import Paginator
+from django.db.models import Q
+from datetime import datetime, timedelta
 from .forms import CustomUserCreationForm, GratitudeEntryForm
 from .models import GratitudeEntry
 
@@ -92,16 +94,61 @@ def create_entry(request):
 
 @login_required
 def entry_list(request):
-    """List all user's entries with pagination"""
-    entries = GratitudeEntry.objects.filter(
-        user=request.user
-    ).order_by('-created_at')
-    paginator = Paginator(entries, 10)  # Show 10 entries per page
+    """List all user's entries with search and filtering"""
+    entries = GratitudeEntry.objects.filter(user=request.user)
     
+    # Search functionality
+    search_query = request.GET.get('search', '')
+    if search_query:
+        entries = entries.filter(
+            Q(title__icontains=search_query) |
+            Q(content__icontains=search_query) |
+            Q(tags__icontains=search_query)
+        )
+    
+    # Mood filter
+    mood_filter = request.GET.get('mood', '')
+    if mood_filter:
+        entries = entries.filter(mood=mood_filter)
+    
+    # Date range filter
+    date_from = request.GET.get('date_from', '')
+    date_to = request.GET.get('date_to', '')
+    if date_from:
+        entries = entries.filter(created_at__date__gte=date_from)
+    if date_to:
+        entries = entries.filter(created_at__date__lte=date_to)
+    
+    # Sorting
+    sort_by = request.GET.get('sort', '-created_at')
+    valid_sort_options = [
+        '-created_at', 'created_at', 'title', '-title', 'mood'
+    ]
+    if sort_by in valid_sort_options:
+        entries = entries.order_by(sort_by)
+    else:
+        entries = entries.order_by('-created_at')
+    
+    # Pagination
+    paginator = Paginator(entries, 10)  # Show 10 entries per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    return render(request, 'journal/entry_list.html', {'page_obj': page_obj})
+    # Get mood choices for filter dropdown
+    mood_choices = GratitudeEntry.MOOD_CHOICES
+    
+    context = {
+        'page_obj': page_obj,
+        'search_query': search_query,
+        'mood_filter': mood_filter,
+        'date_from': date_from,
+        'date_to': date_to,
+        'sort_by': sort_by,
+        'mood_choices': mood_choices,
+        'total_results': entries.count(),
+    }
+    
+    return render(request, 'journal/entry_list.html', context)
 
 
 @login_required
