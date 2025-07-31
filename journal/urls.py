@@ -1,5 +1,4 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views
 from . import views
 
 app_name = 'journal'
@@ -10,8 +9,8 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('profile/', views.profile_view, name='profile'),
     path('profile/change-password/', views.change_password_view, name='change_password'),
-    path('login/', auth_views.LoginView.as_view(template_name='journal/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('logout/', views.CustomLogoutView.as_view(), name='logout'),
     
     # Journal Entry URLs
     path('entries/', views.entry_list, name='entry_list'),

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -23,9 +24,9 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}!')
+            messages.success(request, f'Welcome to Gratitude Journal, {username}! Your account has been created successfully.')
             login(request, user)
-            return redirect('journal:home')
+            return redirect('journal:dashboard')
     else:
         form = CustomUserCreationForm()
     return render(request, 'journal/register.html', {'form': form})
@@ -189,3 +190,27 @@ def delete_entry(request, entry_id):
         return redirect('journal:entry_list')
     
     return render(request, 'journal/delete_entry.html', {'entry': entry})
+
+
+# Custom Authentication Views with Notifications
+class CustomLoginView(LoginView):
+    """Custom login view with welcome message"""
+    template_name = 'journal/login.html'
+    
+    def form_valid(self, form):
+        """Add welcome message on successful login"""
+        response = super().form_valid(form)
+        username = self.request.user.get_full_name() or self.request.user.username
+        messages.success(self.request, f'Welcome back, {username}! You have successfully logged in.')
+        return response
+
+
+class CustomLogoutView(LogoutView):
+    """Custom logout view with goodbye message"""
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Add goodbye message before logout"""
+        if request.user.is_authenticated:
+            username = request.user.get_full_name() or request.user.username
+            messages.info(request, f'Goodbye, {username}! You have been successfully logged out.')
+        return super().dispatch(request, *args, **kwargs)
