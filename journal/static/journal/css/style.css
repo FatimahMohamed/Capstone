@@ -140,6 +140,21 @@ body {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
+.entry-card .card-header {
+    background: #f8f9fa !important;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.entry-card .card-title {
+    color: #212529 !important;
+    font-weight: 600;
+}
+
+.entry-card .text-secondary {
+    color: #495057 !important;
+    font-weight: 500;
+}
+
 .mood-indicator {
     position: relative;
 }
@@ -312,6 +327,19 @@ body {
     background: var(--bg-secondary);
     border-color: var(--border-color);
     color: var(--text-primary);
+}
+
+[data-theme="dark"] .entry-card .card-header {
+    background: var(--bg-light) !important;
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .entry-card .card-title {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .entry-card .text-secondary {
+    color: var(--text-secondary) !important;
 }
 
 [data-theme="dark"] .form-control,
