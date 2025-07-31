@@ -31,6 +31,7 @@ media/
 # Environment variables
 env.py
 .env
+settings.py
 
 # IDE
 .vscode/
