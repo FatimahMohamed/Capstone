@@ -6,9 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.core.paginator import Paginator
-from django.db.models import Q, Count
-from django.utils import timezone
-from datetime import datetime, timedelta
+from django.db.models import Q
 from .forms import CustomUserCreationForm, GratitudeEntryForm
 from .models import GratitudeEntry
 
@@ -229,94 +227,3 @@ class CustomLogoutView(LogoutView):
         return super().dispatch(request, *args, **kwargs)
 
 
-@login_required
-def analytics_dashboard(request):
-    """Analytics dashboard showing gratitude journal statistics"""
-    user_entries = GratitudeEntry.objects.filter(user=request.user)
-    
-    # Basic stats
-    total_entries = user_entries.count()
-    
-    # Date calculations
-    now = timezone.now()
-    thirty_days_ago = now - timedelta(days=30)
-    seven_days_ago = now - timedelta(days=7)
-    
-    entries_last_30_days = user_entries.filter(created_at__gte=thirty_days_ago).count()
-    entries_last_7_days = user_entries.filter(created_at__gte=seven_days_ago).count()
-    
-    # Mood distribution
-    mood_stats = user_entries.values('mood').annotate(count=Count('mood')).order_by('-count')
-    
-    # Writing streak calculation
-    current_streak = 0
-    longest_streak = 0
-    temp_streak = 0
-    
-    if total_entries > 0:
-        # Get dates with entries
-        entry_dates = set(user_entries.values_list('created_at__date', flat=True))
-        
-        # Check current streak
-        current_date = now.date()
-        while current_date in entry_dates:
-            current_streak += 1
-            current_date -= timedelta(days=1)
-        
-        # Calculate longest streak
-        all_dates = sorted(entry_dates)
-        if all_dates:
-            temp_streak = 1
-            for i in range(1, len(all_dates)):
-                if (all_dates[i] - all_dates[i-1]).days == 1:
-                    temp_streak += 1
-                    longest_streak = max(longest_streak, temp_streak)
-                else:
-                    temp_streak = 1
-            longest_streak = max(longest_streak, temp_streak)
-    
-    # Tag frequency (if tags exist)
-    tag_stats = []
-    if user_entries.filter(tags__isnull=False).exists():
-        all_tags = []
-        for entry in user_entries.exclude(tags='').exclude(tags__isnull=True):
-            if entry.tags:
-                tags = [tag.strip() for tag in entry.tags.split(',')]
-                all_tags.extend(tags)
-        
-        # Count tag frequency
-        from collections import Counter
-        tag_counter = Counter(all_tags)
-        tag_stats = [{'tag': tag, 'count': count} for tag, count in tag_counter.most_common(10)]
-    
-    # Monthly breakdown
-    monthly_stats = []
-    for i in range(6):  # Last 6 months
-        month_start = (now.replace(day=1) - timedelta(days=30*i)).replace(day=1)
-        month_end = (month_start.replace(month=month_start.month % 12 + 1) if month_start.month < 12 
-                    else month_start.replace(year=month_start.year + 1, month=1)) - timedelta(days=1)
-        
-        month_entries = user_entries.filter(
-            created_at__gte=month_start,
-            created_at__lte=month_end
-        ).count()
-        
-        monthly_stats.append({
-            'month': month_start.strftime('%B %Y'),
-            'count': month_entries
-        })
-    
-    monthly_stats.reverse()  # Show oldest to newest
-    
-    context = {
-        'total_entries': total_entries,
-        'entries_last_30_days': entries_last_30_days,
-        'entries_last_7_days': entries_last_7_days,
-        'mood_stats': mood_stats,
-        'current_streak': current_streak,
-        'longest_streak': longest_streak,
-        'tag_stats': tag_stats,
-        'monthly_stats': monthly_stats,
-    }
-    
-    return render(request, 'journal/analytics.html', context)
