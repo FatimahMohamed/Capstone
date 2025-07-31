@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
@@ -12,7 +12,9 @@ from .models import GratitudeEntry
 
 
 def home(request):
-    """Home page - shows different content for authenticated vs anonymous users"""
+    """
+    Home page - shows different content for authenticated vs anonymous users
+    """
     return render(request, 'journal/home.html')
 
 
@@ -23,7 +25,11 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Welcome to Gratitude Journal, {username}! Your account has been created successfully.')
+            messages.success(
+                request,
+                f'Welcome to Gratitude Journal, {username}! '
+                f'Your account has been created successfully.'
+            )
             login(request, user)
             return redirect('journal:dashboard')
     else:
@@ -67,7 +73,9 @@ def change_password_view(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            messages.success(request, 'Your password was successfully updated!')
+            messages.success(
+                request, 'Your password was successfully updated!'
+            )
             return redirect('journal:profile')
         else:
             messages.error(request, 'Please correct the error below.')
@@ -87,12 +95,22 @@ def create_entry(request):
                 entry = form.save(commit=False)
                 entry.user = request.user
                 entry.save()
-                messages.success(request, 'Your gratitude entry has been created successfully!')
+                messages.success(
+                    request,
+                    'Your gratitude entry has been created successfully!'
+                )
                 return redirect('journal:entry_detail', entry_id=entry.id)
             except Exception:
-                messages.error(request, 'An error occurred while creating your entry. Please try again.')
+                messages.error(
+                    request,
+                    'An error occurred while creating your entry. '
+                    'Please try again.'
+                )
         else:
-            messages.error(request, 'Please correct the errors below and try again.')
+            messages.error(
+                request,
+                'Please correct the errors below and try again.'
+            )
     else:
         form = GratitudeEntryForm()
     
@@ -175,12 +193,22 @@ def edit_entry(request, entry_id):
         if form.is_valid():
             try:
                 form.save()
-                messages.success(request, 'Your gratitude entry has been updated successfully!')
+                messages.success(
+                    request,
+                    'Your gratitude entry has been updated successfully!'
+                )
                 return redirect('journal:entry_detail', entry_id=entry.id)
-            except Exception as e:
-                messages.error(request, 'An error occurred while saving your entry. Please try again.')
+            except Exception:
+                messages.error(
+                    request,
+                    'An error occurred while saving your entry. '
+                    'Please try again.'
+                )
         else:
-            messages.error(request, 'Please correct the errors below and try again.')
+            messages.error(
+                request,
+                'Please correct the errors below and try again.'
+            )
     else:
         form = GratitudeEntryForm(instance=entry)
     
@@ -211,8 +239,12 @@ class CustomLoginView(LoginView):
     def form_valid(self, form):
         """Add welcome message on successful login"""
         response = super().form_valid(form)
-        username = self.request.user.get_full_name() or self.request.user.username
-        messages.success(self.request, f'Welcome back, {username}! You have successfully logged in.')
+        username = (self.request.user.get_full_name() or
+                    self.request.user.username)
+        messages.success(
+            self.request,
+            f'Welcome back, {username}! You have successfully logged in.'
+        )
         return response
 
 
@@ -223,7 +255,10 @@ class CustomLogoutView(LogoutView):
         """Add goodbye message before logout"""
         if request.user.is_authenticated:
             username = request.user.get_full_name() or request.user.username
-            messages.info(request, f'Goodbye, {username}! You have been successfully logged out.')
+            messages.info(
+                request,
+                f'Goodbye, {username}! You have been successfully logged out.'
+            )
         return super().dispatch(request, *args, **kwargs)
 
 
