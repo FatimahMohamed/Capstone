@@ -1,0 +1,259 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}Analytics - Gratitude Journal{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">
+                    <i class="fas fa-chart-bar text-primary"></i> Analytics Dashboard
+                </h2>
+                <a href="{% url 'journal:entry_list' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Entries
+                </a>
+            </div>
+
+            <!-- Quick Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card bg-primary text-white h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-book-open fa-2x mb-2"></i>
+                            <h3 class="mb-1">{{ total_entries }}</h3>
+                            <p class="mb-0">Total Entries</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card bg-success text-white h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-calendar-week fa-2x mb-2"></i>
+                            <h3 class="mb-1">{{ entries_last_7_days }}</h3>
+                            <p class="mb-0">This Week</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card bg-info text-white h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-calendar-alt fa-2x mb-2"></i>
+                            <h3 class="mb-1">{{ entries_last_30_days }}</h3>
+                            <p class="mb-0">This Month</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card bg-warning text-white h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-fire fa-2x mb-2"></i>
+                            <h3 class="mb-1">{{ current_streak }}</h3>
+                            <p class="mb-0">Day Streak</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Mood Distribution -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">
+                                <i class="fas fa-smile text-primary"></i> Mood Distribution
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            {% if mood_stats %}
+                                {% for mood in mood_stats %}
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="fw-semibold">{{ mood.mood|capfirst }}</span>
+                                            <span class="badge 
+                                                {% if mood.mood == 'excellent' %}bg-success
+                                                {% elif mood.mood == 'good' %}bg-primary
+                                                {% elif mood.mood == 'okay' %}bg-secondary
+                                                {% elif mood.mood == 'difficult' %}bg-warning
+                                                {% else %}bg-danger{% endif %}">
+                                                {{ mood.count }}
+                                            </span>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar 
+                                                {% if mood.mood == 'excellent' %}bg-success
+                                                {% elif mood.mood == 'good' %}bg-primary
+                                                {% elif mood.mood == 'okay' %}bg-secondary
+                                                {% elif mood.mood == 'difficult' %}bg-warning
+                                                {% else %}bg-danger{% endif %}"
+                                                role="progressbar" 
+                                                style="width: {{ mood.count|mul:100|div:total_entries }}%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-muted">No mood data available yet. Start writing entries to see your mood patterns!</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Writing Streaks -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">
+                                <i class="fas fa-fire text-warning"></i> Writing Streaks
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-6">
+                                    <div class="border-end">
+                                        <h3 class="text-warning mb-1">{{ current_streak }}</h3>
+                                        <p class="text-muted mb-0">Current Streak</p>
+                                        <small class="text-muted">
+                                            {% if current_streak > 0 %}
+                                                Keep it up! 🔥
+                                            {% else %}
+                                                Write today to start a streak!
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h3 class="text-success mb-1">{{ longest_streak }}</h3>
+                                    <p class="text-muted mb-0">Longest Streak</p>
+                                    <small class="text-muted">
+                                        {% if longest_streak > 0 %}
+                                            Personal best! 🏆
+                                        {% else %}
+                                            Start your journey!
+                                        {% endif %}
+                                    </small>
+                                </div>
+                            </div>
+                            
+                            {% if current_streak >= 7 %}
+                                <div class="alert alert-success mt-3" role="alert">
+                                    <i class="fas fa-trophy"></i> Amazing! You've maintained a week-long writing streak!
+                                </div>
+                            {% elif current_streak >= 3 %}
+                                <div class="alert alert-info mt-3" role="alert">
+                                    <i class="fas fa-star"></i> Great job! You're building a solid writing habit!
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Tags -->
+                {% if tag_stats %}
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">
+                                <i class="fas fa-tags text-info"></i> Most Used Tags
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                {% for tag_stat in tag_stats %}
+                                    <div class="col-6 mb-2">
+                                        <span class="badge bg-light text-dark me-1">{{ tag_stat.tag }}</span>
+                                        <small class="text-muted">({{ tag_stat.count }})</small>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Monthly Breakdown -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">
+                                <i class="fas fa-calendar text-secondary"></i> Monthly Activity
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            {% if monthly_stats %}
+                                {% for month in monthly_stats %}
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="fw-semibold">{{ month.month }}</span>
+                                        <span class="badge bg-primary">{{ month.count }} entries</span>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-muted">No monthly data available yet.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Motivational Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-primary">
+                        <div class="card-body text-center">
+                            <h5 class="text-primary mb-3">
+                                <i class="fas fa-heart"></i> Your Gratitude Journey
+                            </h5>
+                            {% if total_entries == 0 %}
+                                <p class="mb-3">Welcome to your gratitude journey! Every great journey begins with a single step.</p>
+                                <a href="{% url 'journal:create_entry' %}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Write Your First Entry
+                                </a>
+                            {% elif total_entries < 5 %}
+                                <p class="mb-3">You're just getting started! Each entry helps build your gratitude practice.</p>
+                                <a href="{% url 'journal:create_entry' %}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Continue Writing
+                                </a>
+                            {% elif total_entries < 30 %}
+                                <p class="mb-3">You're building momentum! {{ total_entries }} entries show real commitment to gratitude.</p>
+                                <a href="{% url 'journal:create_entry' %}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Keep It Going
+                                </a>
+                            {% else %}
+                                <p class="mb-3">Incredible! {{ total_entries }} entries show a deep commitment to gratitude. You're inspiring! 🌟</p>
+                                <a href="{% url 'journal:create_entry' %}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Add Another Entry
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.progress {
+    background-color: #e9ecef;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.bg-primary .fa-2x,
+.bg-success .fa-2x,
+.bg-info .fa-2x,
+.bg-warning .fa-2x {
+    opacity: 0.8;
+}
+</style>
+{% endblock %}

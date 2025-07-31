@@ -19,4 +19,7 @@ urlpatterns = [
     path('entries/<int:entry_id>/edit/', views.edit_entry, name='edit_entry'),
     path('entries/<int:entry_id>/delete/', views.delete_entry,
          name='delete_entry'),
+    
+    # Analytics
+    path('analytics/', views.analytics_dashboard, name='analytics'),
 ]
