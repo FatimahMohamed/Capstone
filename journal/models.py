@@ -16,7 +16,11 @@ class GratitudeEntry(models.Model):
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='gratitude_entries')
-    title = models.CharField(max_length=200, help_text='Give your entry a meaningful title')
+    title = models.CharField(
+        max_length=200, 
+        blank=True, 
+        help_text='Give your entry a meaningful title (optional)'
+    )
     content = models.TextField(help_text='What are you grateful for today?')
     mood = models.CharField(max_length=20, choices=MOOD_CHOICES, default='good')
     tags = models.CharField(

@@ -53,6 +53,9 @@ class GratitudeEntryForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Make title field optional
+        self.fields['title'].required = False
+        self.fields['title'].help_text = 'Give your entry a meaningful title (optional)'
         # Add help text to fields
         self.fields['content'].help_text = (
             'Express what you\'re grateful for in detail'
