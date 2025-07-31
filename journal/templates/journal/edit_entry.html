@@ -39,6 +39,7 @@
                                 Update your entry title
                             </small>
                             {{ form.title }}
+                            <div class="character-count text-muted small" id="title-count">0/200 characters</div>
                             {% if form.title.errors %}
                                 <div class="invalid-feedback d-block">
                                     {{ form.title.errors.0 }}
@@ -49,12 +50,13 @@
                         <!-- Main Content Field -->
                         <div class="form-group mb-4">
                             <label for="{{ form.content.id_for_label }}" class="form-label h5 text-primary">
-                                <i class="fas fa-heart"></i> What are you grateful for?
+                                <i class="fas fa-heart"></i> What are you grateful for? <span class="text-danger">*</span>
                             </label>
                             <small class="form-text text-muted mb-2">
-                                Update your gratitude reflection
+                                Update your gratitude reflection (Minimum 10 characters)
                             </small>
                             {{ form.content }}
+                            <div class="character-count text-muted small" id="content-count">0/5000 characters</div>
                             {% if form.content.errors %}
                                 <div class="invalid-feedback d-block">
                                     {{ form.content.errors.0 }}
@@ -65,7 +67,7 @@
                         <!-- Mood Field -->
                         <div class="form-group mb-4">
                             <label for="{{ form.mood.id_for_label }}" class="form-label h6 text-primary">
-                                <i class="fas fa-smile"></i> How were you feeling?
+                                <i class="fas fa-smile"></i> How were you feeling? <span class="text-danger">*</span>
                             </label>
                             {{ form.mood }}
                             {% if form.mood.errors %}
@@ -178,5 +180,105 @@ textarea.form-control {
 .card-header.bg-warning small {
     color: rgba(33, 37, 41, 0.75) !important;
 }
+
+.character-count {
+    text-align: right;
+    margin-top: 2px;
+}
+
+.character-count.warning {
+    color: #ffc107 !important;
+}
+
+.character-count.danger {
+    color: #dc3545 !important;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.form-control.is-valid {
+    border-color: #28a745;
+}
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('edit-entry-form');
+    const titleField = document.getElementById('{{ form.title.id_for_label }}');
+    const contentField = document.getElementById('{{ form.content.id_for_label }}');
+    const moodField = document.getElementById('{{ form.mood.id_for_label }}');
+    const titleCount = document.getElementById('title-count');
+    const contentCount = document.getElementById('content-count');
+
+    // Character count for title
+    function updateTitleCount() {
+        const length = titleField.value.length;
+        titleCount.textContent = length + '/200 characters';
+        
+        if (length > 180) {
+            titleCount.className = 'character-count text-muted small danger';
+        } else if (length > 150) {
+            titleCount.className = 'character-count text-muted small warning';
+        } else {
+            titleCount.className = 'character-count text-muted small';
+        }
+    }
+
+    // Character count for content
+    function updateContentCount() {
+        const length = contentField.value.length;
+        contentCount.textContent = length + '/5000 characters';
+        
+        if (length > 4500) {
+            contentCount.className = 'character-count text-muted small danger';
+        } else if (length > 4000) {
+            contentCount.className = 'character-count text-muted small warning';
+        } else {
+            contentCount.className = 'character-count text-muted small';
+        }
+        
+        // Real-time validation for minimum content
+        if (length < 10 && length > 0) {
+            contentField.classList.add('is-invalid');
+            contentField.classList.remove('is-valid');
+        } else if (length >= 10) {
+            contentField.classList.remove('is-invalid');
+            contentField.classList.add('is-valid');
+        }
+    }
+
+    // Event listeners
+    titleField.addEventListener('input', updateTitleCount);
+    contentField.addEventListener('input', updateContentCount);
+
+    // Initialize counts
+    updateTitleCount();
+    updateContentCount();
+
+    // Form submission validation
+    form.addEventListener('submit', function(e) {
+        let isValid = true;
+        
+        // Validate content
+        if (contentField.value.trim().length < 10) {
+            contentField.classList.add('is-invalid');
+            isValid = false;
+        }
+        
+        // Validate mood selection
+        if (!moodField.value) {
+            moodField.classList.add('is-invalid');
+            isValid = false;
+        }
+        
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please fill in all required fields correctly.');
+        }
+    });
+});
+</script>
+{% endblock %}
 {% endblock %}

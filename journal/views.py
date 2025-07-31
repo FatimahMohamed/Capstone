@@ -79,18 +79,25 @@ def change_password_view(request):
 
 
 @login_required
+@login_required
 def create_entry(request):
-    """Create a new gratitude entry"""
+    """Create a new gratitude entry with enhanced error handling"""
     if request.method == 'POST':
         form = GratitudeEntryForm(request.POST)
         if form.is_valid():
-            entry = form.save(commit=False)
-            entry.user = request.user
-            entry.save()
-            messages.success(request, 'Your gratitude entry has been created!')
-            return redirect('journal:entry_detail', entry_id=entry.id)
+            try:
+                entry = form.save(commit=False)
+                entry.user = request.user
+                entry.save()
+                messages.success(request, 'Your gratitude entry has been created successfully!')
+                return redirect('journal:entry_detail', entry_id=entry.id)
+            except Exception:
+                messages.error(request, 'An error occurred while creating your entry. Please try again.')
+        else:
+            messages.error(request, 'Please correct the errors below and try again.')
     else:
         form = GratitudeEntryForm()
+    
     return render(request, 'journal/create_entry.html', {'form': form})
 
 
@@ -162,15 +169,20 @@ def entry_detail(request, entry_id):
 
 @login_required
 def edit_entry(request, entry_id):
-    """Edit an existing entry"""
+    """Edit an existing entry with enhanced error handling"""
     entry = get_object_or_404(GratitudeEntry, id=entry_id, user=request.user)
     
     if request.method == 'POST':
         form = GratitudeEntryForm(request.POST, instance=entry)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Your entry has been updated!')
-            return redirect('journal:entry_detail', entry_id=entry.id)
+            try:
+                form.save()
+                messages.success(request, 'Your gratitude entry has been updated successfully!')
+                return redirect('journal:entry_detail', entry_id=entry.id)
+            except Exception as e:
+                messages.error(request, 'An error occurred while saving your entry. Please try again.')
+        else:
+            messages.error(request, 'Please correct the errors below and try again.')
     else:
         form = GratitudeEntryForm(instance=entry)
     
