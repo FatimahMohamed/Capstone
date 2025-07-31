@@ -219,42 +219,9 @@ function addEntryCardEffects() {
     });
 }
 
-// Theme toggle functionality
-function toggleTheme() {
-    const body = document.body;
-    const currentTheme = body.getAttribute('data-theme');
-    const themeButton = document.querySelector('.theme-toggle i');
-    
-    if (currentTheme === 'dark') {
-        body.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-        themeButton.className = 'fas fa-moon';
-    } else {
-        body.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        themeButton.className = 'fas fa-sun';
-    }
-}
-
-// Load saved theme
-function loadTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    const themeButton = document.querySelector('.theme-toggle i');
-    
-    document.body.setAttribute('data-theme', savedTheme);
-    
-    if (themeButton) {
-        themeButton.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-    }
-}
-
-// Initialize theme on page load
-loadTheme();
-
 // Export functions for use in templates
 window.GratitudeJournal = {
     saveFormData,
     loadFormData,
-    clearFormData,
-    toggleTheme
+    clearFormData
 };
