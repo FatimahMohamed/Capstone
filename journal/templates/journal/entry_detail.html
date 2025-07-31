@@ -23,7 +23,7 @@
                                 <i class="fas fa-heart"></i> 
                                 {{ entry.created_at|date:"F d, Y" }}
                             </h4>
-                            <small class="opacity-75">
+                            <small class="text-white fw-semibold">
                                 Created at {{ entry.created_at|date:"g:i A" }}
                                 {% if entry.updated_at != entry.created_at %}
                                     | Updated {{ entry.updated_at|date:"M d, Y g:i A" }}

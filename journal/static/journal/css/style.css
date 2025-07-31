@@ -61,6 +61,16 @@ body {
     background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
     border: none;
     padding: 20px;
+    color: white;
+}
+
+.card-header .text-white {
+    color: white !important;
+    opacity: 1 !important;
+}
+
+.card-header small {
+    color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .card-footer {
@@ -340,6 +350,15 @@ body {
 
 [data-theme="dark"] .entry-card .text-secondary {
     color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .card-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+}
+
+[data-theme="dark"] .card-header .text-white,
+[data-theme="dark"] .card-header small {
+    color: var(--text-primary) !important;
 }
 
 [data-theme="dark"] .form-control,
