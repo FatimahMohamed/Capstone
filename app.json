@@ -1,0 +1,44 @@
+{
+  "name": "Gratitude Journal",
+  "description": "A beautiful, full-stack Django gratitude journal application",
+  "repository": "https://github.com/FatimahMohamed/Capstone",
+  "keywords": ["python", "django", "gratitude", "journal", "postgresql"],
+  "stack": "heroku-22",
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:essential-0"
+    }
+  ],
+  "env": {
+    "DEBUG": {
+      "description": "Enable debug mode for development",
+      "value": "False"
+    },
+    "SECRET_KEY": {
+      "description": "Django secret key for production",
+      "generator": "secret"
+    },
+    "ALLOWED_HOSTS": {
+      "description": "Comma-separated list of allowed hosts",
+      "value": ".herokuapp.com"
+    },
+    "DJANGO_SETTINGS_MODULE": {
+      "description": "Django settings module to use",
+      "value": "gratitude_journal.production_settings"
+    }
+  },
+  "scripts": {
+    "postdeploy": "python manage.py migrate && python manage.py collectstatic --noinput"
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
