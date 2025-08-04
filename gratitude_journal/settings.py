@@ -14,7 +14,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.environ.get(
     'ALLOWED_HOSTS',
-    'localhost,127.0.0.1,capstone123-b282129cffe0.herokuapp.com'
+    'localhost,127.0.0.1,capstone123.herokuapp.com'
 ).split(',')
 
 INSTALLED_APPS = [
