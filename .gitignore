@@ -31,7 +31,8 @@ media/
 # Environment variables
 env.py
 .env
-settings.py
+local_settings.py
+production_settings.py
 
 # IDE
 .vscode/
