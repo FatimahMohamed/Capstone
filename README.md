@@ -213,33 +213,62 @@ WCAG guidlines were adhereded to so that there was enough colour contrast. I tes
 
 I used Segoe UI as the primary font. Segoe UI creates a clean, modern and highly readable interface that aligns with the calming and positive nature of the gratitude journaling application. The font weights are varied throughout the project for headings and subheadings.
 
-## Key Features
+# Key Features
 
-### User Authentication & Management
+## User Authentication & Management
 
 The Gratitude Journal provides comprehensive user authentication and management capabilities, allowing users to register securely, log in with username and password combinations, and manage their personal profiles. Users can change their passwords with proper verification, view their account information including join dates and last login times, and maintain secure sessions throughout their journaling experience.
 
-### Gratitude Entry Management
+## Gratitude Entry Management
 
 At the heart of the application is the gratitude entry management system, which enables users to create detailed journal entries with titles, content, mood selections, and custom tags. Users have full control over their entries, with the ability to view, edit, and delete them as needed. Each entry includes privacy settings, allowing users to keep their thoughts private or mark them as shareable for potential future features.
 
-### Mood Tracking System
+## Mood Tracking System
 
 The mood tracking system is a distinctive feature that allows users to categorize their emotional state with each entry. Users can select from five mood options: Excellent, Good, Okay, Difficult, or Challenging, each represented by distinctive emoji indicators and color coding. This mood data is then aggregated to provide valuable insights into emotional patterns over time.
 
-### Dashboard Overview
+## Dashboard Overview
 
 The dashboard serves as the central hub of the user experience, providing a personalized overview of the user's gratitude journey. It displays the total number of entries, shows previews of the three most recent entries, and presents mood distribution statistics in an easily digestible visual format. Quick action buttons make it simple to create new entries or browse through existing ones.
 
-### Search & Filter Capabilities
+## Search & Filter Capabilities
 
 The application includes robust search and filtering capabilities that help users navigate their growing collection of entries. Users can search through titles, content, and tags, filter entries by mood or date ranges, and sort their results by various criteria. The system provides clear feedback on search results and offers easy ways to clear filters and return to the full entry list.
 
-### Enhanced UX Features
+## Enhanced UX Features
 
 Enhanced user experience features make the application enjoyable and efficient to use daily. The responsive design ensures optimal functionality across desktop, tablet, and mobile devices. Interactive elements include keyboard shortcuts for quick navigation, form auto-save functionality to prevent data loss, real-time character counting for content fields, and smooth animations and transitions that create a polished, professional feel.
 
-### Data Management
+## Data Management
 
 Data management capabilities include comprehensive timestamping for both creation and modification dates, a flexible tag system that accepts comma-separated input, and robust content validation that ensures entries meet minimum and maximum length requirements. The system automatically sorts entries by date to show the most recent content first, making it easy for users to see their latest thoughts and progress.
 
+# Deployment
+
+The Gratitude Journal application was deployed to Heroku using a systematic approach that ensures production-ready performance and security. The deployment process began with configuring the Django settings to handle both development and production environments seamlessly.
+
+**Environment Configuration:** The project uses environment variables to manage sensitive information and configuration settings. Database credentials, secret keys, and other sensitive data are stored as Heroku config vars rather than being hardcoded in the application files. This approach maintains security while allowing the application to adapt to different deployment environments.
+
+**Database Setup:** The application transitions from SQLite for local development to PostgreSQL for production on Heroku. This change provides better performance, reliability, and scalability for the live application. The database configuration automatically detects the environment and uses the appropriate database backend.
+
+**Static File Management:** Static files are handled using WhiteNoise middleware, which was specifically configured to serve CSS, JavaScript, and image files efficiently in production. This eliminates the need for a separate static file server and ensures that the purple gradient background and all styling elements load correctly in the deployed version.
+
+**Production Settings:** The deployment includes production-optimized settings such as proper ALLOWED_HOSTS configuration, debug mode disabled, and secure static file serving. The STATICFILES_DIRS configuration was carefully adjusted to work with Heroku's file system structure, ensuring all custom CSS and JavaScript files are properly served.
+
+**Deployment Process:** The application is deployed using Git integration with Heroku, allowing for easy updates and version control. Dependencies are managed through the requirements.txt file, ensuring all necessary packages are installed in the production environment. The deployment includes automatic dependency installation and database migration execution.
+
+# AI Impelementation & Orchestration
+
+I leveraged artificial intelligence as a comprehensive development partner throughout the entire project lifecycle. AI served as an intelligent coding assistant, providing expert guidance on Django best practices, debugging complex issues, and optimizing code structure for maintainability and performance.
+
+**Code Development & Architecture:** AI assistance was instrumental in structuring the Django application architecture, helping to design efficient models, views, and URL patterns. The AI provided recommendations for implementing the mood tracking system, user authentication flows, and database relationships, ensuring the codebase followed industry standards and Django conventions.
+
+**Problem-Solving & Debugging:** Throughout development, AI served as a debugging partner, helping to identify and resolve issues with static file serving, database migrations, and deployment configurations. When the purple gradient background wasn't displaying correctly in production, AI guided the troubleshooting process that led to the WhiteNoise configuration solution.
+
+**User Experience Enhancement:** AI contributed to the development of user-centric features such as the real-time character counting, form auto-save functionality, and responsive design elements. The AI helped implement JavaScript enhancements that improve the overall user experience, including smooth animations and keyboard shortcuts.
+
+**Documentation & Best Practices:** AI assisted in creating comprehensive documentation, including the detailed user stories with acceptance criteria, technical specifications, and deployment procedures. The AI helped ensure that the project documentation follows professional standards and provides clear guidance for future development.
+
+**Deployment Optimization:** During the Heroku deployment process, AI provided guidance on production settings, environment variable configuration, and static file management. This collaboration resulted in a robust, scalable deployment that handles both development and production environments seamlessly.
+
+**AI Limitations:** Although AI was a powerful tool in the development of the gratitude journaling application, its usage had some drawbacks including providing incorrect solutions as well as advising of unnecessary steps.

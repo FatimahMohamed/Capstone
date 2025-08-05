@@ -25,7 +25,7 @@
                     </p>
                 </div>
                 <div>
-                    <a href="{% url 'journal:create_entry' %}" class="btn btn-primary">
+                    <a href="{% url 'journal:create_entry' %}" class="btn btn-primary" aria-label="Create a new journal entry">
                         <i class="fas fa-plus"></i> New Entry
                     </a>
                 </div>
@@ -46,7 +46,7 @@
                                        name="search" 
                                        value="{{ request.GET.search }}"
                                        placeholder="Search titles, content, or tags...">
-                                <button type="button" class="btn btn-outline-secondary" onclick="toggleAdvancedSearch()" data-bs-toggle="tooltip" title="Advanced Search">
+                                <button type="button" class="btn btn-outline-secondary" onclick="toggleAdvancedSearch()" data-bs-toggle="tooltip" title="Advanced Search" aria-label="Show or hide advanced search options">
                                     <i class="fas fa-cog"></i>
                                 </button>
                             </div>
@@ -84,10 +84,10 @@
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
                             <div class="w-100">
-                                <button type="submit" class="btn btn-primary w-100 mb-2">
+                                <button type="submit" class="btn btn-primary w-100 mb-2" aria-label="Search journal entries with current filters">
                                     <i class="fas fa-search"></i> Search
                                 </button>
-                                <a href="{% url 'journal:entry_list' %}" class="btn btn-outline-secondary w-100 btn-sm">
+                                <a href="{% url 'journal:entry_list' %}" class="btn btn-outline-secondary w-100 btn-sm" aria-label="Clear all search filters and show all entries">
                                     <i class="fas fa-times"></i> Clear
                                 </a>
                             </div>
@@ -163,17 +163,20 @@
                                     {% endif %}
                                 </div>
                                 <div class="card-footer bg-light border-0">
-                                    <div class="btn-group w-100" role="group">
+                                    <div class="btn-group w-100" role="group" aria-label="Entry actions">
                                         <a href="{% url 'journal:entry_detail' entry.id %}" 
-                                           class="btn btn-outline-primary btn-sm">
+                                           class="btn btn-outline-primary btn-sm"
+                                           aria-label="View full details of entry from {{ entry.created_at|date:'M d, Y' }}">
                                             <i class="fas fa-eye"></i> View
                                         </a>
                                         <a href="{% url 'journal:edit_entry' entry.id %}" 
-                                           class="btn btn-outline-secondary btn-sm">
+                                           class="btn btn-outline-secondary btn-sm"
+                                           aria-label="Edit entry from {{ entry.created_at|date:'M d, Y' }}">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
                                         <a href="{% url 'journal:delete_entry' entry.id %}" 
-                                           class="btn btn-outline-danger btn-sm">
+                                           class="btn btn-outline-danger btn-sm"
+                                           aria-label="Delete entry from {{ entry.created_at|date:'M d, Y' }}">
                                             <i class="fas fa-trash"></i> Delete
                                         </a>
                                     </div>
@@ -238,7 +241,7 @@
                                 Start your gratitude journey by creating your first entry. 
                                 Reflecting on what you're grateful for can improve your mood and wellbeing.
                             </p>
-                            <a href="{% url 'journal:create_entry' %}" class="btn btn-primary">
+                            <a href="{% url 'journal:create_entry' %}" class="btn btn-primary" aria-label="Create your first gratitude journal entry">
                                 <i class="fas fa-plus"></i> Create Your First Entry
                             </a>
                         </div>
