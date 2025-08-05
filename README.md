@@ -209,7 +209,37 @@ WCAG guidlines were adhereded to so that there was enough colour contrast. I tes
 
 ![contrast checker showing background and foreground colours passed all contrast tests](readme/contrast.png)
 
+### Font
 
+I used Segoe UI as the primary font. Segoe UI creates a clean, modern and highly readable interface that aligns with the calming and positive nature of the gratitude journaling application. The font weights are varied throughout the project for headings and subheadings.
 
+## Key Features
 
+### User Authentication & Management
+
+The Gratitude Journal provides comprehensive user authentication and management capabilities, allowing users to register securely, log in with username and password combinations, and manage their personal profiles. Users can change their passwords with proper verification, view their account information including join dates and last login times, and maintain secure sessions throughout their journaling experience.
+
+### Gratitude Entry Management
+
+At the heart of the application is the gratitude entry management system, which enables users to create detailed journal entries with titles, content, mood selections, and custom tags. Users have full control over their entries, with the ability to view, edit, and delete them as needed. Each entry includes privacy settings, allowing users to keep their thoughts private or mark them as shareable for potential future features.
+
+### Mood Tracking System
+
+The mood tracking system is a distinctive feature that allows users to categorize their emotional state with each entry. Users can select from five mood options: Excellent, Good, Okay, Difficult, or Challenging, each represented by distinctive emoji indicators and color coding. This mood data is then aggregated to provide valuable insights into emotional patterns over time.
+
+### Dashboard Overview
+
+The dashboard serves as the central hub of the user experience, providing a personalized overview of the user's gratitude journey. It displays the total number of entries, shows previews of the three most recent entries, and presents mood distribution statistics in an easily digestible visual format. Quick action buttons make it simple to create new entries or browse through existing ones.
+
+### Search & Filter Capabilities
+
+The application includes robust search and filtering capabilities that help users navigate their growing collection of entries. Users can search through titles, content, and tags, filter entries by mood or date ranges, and sort their results by various criteria. The system provides clear feedback on search results and offers easy ways to clear filters and return to the full entry list.
+
+### Enhanced UX Features
+
+Enhanced user experience features make the application enjoyable and efficient to use daily. The responsive design ensures optimal functionality across desktop, tablet, and mobile devices. Interactive elements include keyboard shortcuts for quick navigation, form auto-save functionality to prevent data loss, real-time character counting for content fields, and smooth animations and transitions that create a polished, professional feel.
+
+### Data Management
+
+Data management capabilities include comprehensive timestamping for both creation and modification dates, a flexible tag system that accepts comma-separated input, and robust content validation that ensures entries meet minimum and maximum length requirements. The system automatically sorts entries by date to show the most recent content first, making it easy for users to see their latest thoughts and progress.
 
