@@ -193,7 +193,21 @@ The wireframes for the Gratitude Journal application were created using Balsamiq
 
 ![desktop and mobile wireframes for the my entries page](readme/My-entries-wireframes.png)
 
+### ERD
 
+The Entity Relationship Diagram (ERD) for the Gratitude Journal application was created using Lucid app to provide a clear visual representation of the database structure and relationships. This diagram serves as a crucial design document that illustrates how data is organized and connected within the application.
+
+![Entity Relationship Diagram for the Gratitude Journal](readme/ERD.png)
+
+### Colours
+
+The following colours are the main colours used in the gratitude journal. I chose vibrant colours to create a feeling of positivity and warmth.
+
+![image of main colours used for the gratitude journal](readme/colours.png)
+
+WCAG guidlines were adhereded to so that there was enough colour contrast. I tested the main font colour against the white background colour using a colour contrast checker, and it passed all tests.
+
+![contrast checker showing background and foreground colours passed all contrast tests](readme/contrast.png)
 
 
 
