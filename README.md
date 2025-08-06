@@ -1,6 +1,6 @@
 # Gratitude Journal
 
-![Screenshot of the 'my journal entries' page](readme/Screenshot%202025-08-05%20095511.png)
+![Screenshot of the 'my journal entries' page](Readme/Screenshot%202025-08-05%20095511.png)
 
 ## Overview
 Gratitude Journal is a Django-powered web application designed to help users cultivate a daily gratitude practice through digital journaling. The back-end of the application is python-based and the front-end incorporates HTML, CSS, Javascript and Bootstrap 5. 
@@ -223,23 +223,23 @@ As a busy user, I want to have quick ways to create entries so that I can mainta
 The wireframes for the Gratitude Journal application were created using Balsamiq Wireframes to visualize the user interface design and layout before development. These wireframes helped establish the information architecture, user flow, and responsive design considerations for both desktop and mobile experiences.
 
 
-![desktop and mobile wireframes for the my entries page](readme/My-entries-wireframes.png)
+![desktop and mobile wireframes for the my entries page](Readme/My-entries-wireframes.png)
 
 ### ERD
 
 The Entity Relationship Diagram (ERD) for the Gratitude Journal application was created using Lucid app to provide a clear visual representation of the database structure and relationships. This diagram serves as a crucial design document that illustrates how data is organized and connected within the application.
 
-![Entity Relationship Diagram for the Gratitude Journal](readme/ERD.png)
+![Entity Relationship Diagram for the Gratitude Journal](Readme/ERD.png)
 
 ### Colours
 
 The following colours are the main colours used in the gratitude journal. I chose vibrant colours to create a feeling of positivity and warmth.
 
-![image of main colours used for the gratitude journal](readme/colours.png)
+![image of main colours used for the gratitude journal](Readme/colours.png)
 
 WCAG guidlines were adhereded to so that there was enough colour contrast. I tested the main font colour against the white background colour using a colour contrast checker, and it passed all tests.
 
-![contrast checker showing background and foreground colours passed all contrast tests](readme/contrast.png)
+![contrast checker showing background and foreground colours passed all contrast tests](Readme/contrast.png)
 
 ### Font
 
@@ -315,29 +315,29 @@ The best practices scored 100 for all the pages tested. The performance was slig
 
 ## Desktop Lighthouse Reports
 
-![Desktop lighthouse report for the home page of the website](readme/desktop1.png)
+![Desktop lighthouse report for the home page of the website](Readme/desktop1.png)
 
-![Desktop lighthouse report for the entries page of the website](readme/desktop2.png)
+![Desktop lighthouse report for the entries page of the website](Readme/desktop2.png)
 
-![Desktop lighthouse report for the new entry page of the website](readme/desktop3.png)
+![Desktop lighthouse report for the new entry page of the website](Readme/desktop3.png)
 
-![Desktop lighthouse report for the dashboard page of the website](readme/desktop4.png)
+![Desktop lighthouse report for the dashboard page of the website](Readme/desktop4.png)
 
 ## Mobile Lighthouse Reports
 
-![Mobile lighthouse report for the home page of the website](readme/mobile1.png)
+![Mobile lighthouse report for the home page of the website](Readme/mobile1.png)
 
-![Mobile lighthouse report for the entries page of the website](readme/mobile2.png)
+![Mobile lighthouse report for the entries page of the website](Readme/mobile2.png)
 
-![Mobile lighthouse report for the new entry page of the website](readme/mobile3.png)
+![Mobile lighthouse report for the new entry page of the website](Readme/mobile3.png)
 
-![Desktop lighthouse report for the dashboard page of the website](readme/mobile4.png)
+![Desktop lighthouse report for the dashboard page of the website](Readme/mobile4.png)
 
 ## HTML Validation
 
 All pages were put through the w3 HTML validator and they all had no errors or warnings to show.
 
-![HTML validator showing no errors or warnings](readme/HTML%20Validation.png)
+![HTML validator showing no errors or warnings](Readme/HTML%20Validation.png)
 
 ## CSS Validation
 
@@ -369,19 +369,19 @@ The W3C CSS Validator has not been updated to fully recognize modern CSS3 featur
 
 **Custom Application CSS:** All custom styles written specifically for the Gratitude Journal application passed CSS validation without errors, ensuring clean, standards-compliant styling for the user interface components, animations, and responsive design elements.
 
-![CSS validator showing warnings and errors](readme/css%20validation.png)
+![CSS validator showing warnings and errors](Readme/css%20validation.png)
 
 ## Python Validation
 
 Code Institute's Python Linter was used. All python files has no errors.
 
-![Code Institute's Python Linter showing no errors](readme/python%20validation.png)
+![Code Institute's Python Linter showing no errors](Readme/python%20validation.png)
 
 ## Javascript Validation
 
 I used [code beautify](https://codebeautify.org/jsvalidate#) to validate my javascript. There were no errors to show. 
 
-![Javascript validator showing no errors](readme/javascript.png)
+![Javascript validator showing no errors](Readme/javascript.png)
 
 ## Manual Testing
 
