@@ -108,13 +108,31 @@
             box-shadow: 0 8px 25px rgba(0, 123, 255, 0.6);
         }
         /* Critical login form styles */
+        .login-form-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .login-form-row .col-md-6 {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .login-form-row .form-group {
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
         .login-form-row .form-control {
             border-radius: 8px;
             border: 2px solid #e9ecef;
             padding: 12px 15px;
             font-size: 16px;
             transition: all 0.3s ease;
-            width: 100%;
+            height: 50px;
+            flex: 1;
         }
         .login-form-row .form-control:focus {
             border-color: #007bff;

@@ -222,16 +222,31 @@ body {
 /* Login Form Inline Layout */
 .login-form-row {
     margin-bottom: 20px;
+    display: flex;
+    align-items: flex-end; /* Align input fields at the bottom */
+    gap: 20px; /* Add consistent spacing between columns */
+}
+
+.login-form-row .col-md-6 {
+    flex: 1; /* Equal width columns */
+    display: flex;
+    flex-direction: column;
 }
 
 .login-form-row .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 0; /* Remove bottom margin for inline alignment */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure equal height */
 }
 
 .login-form-row .form-group label {
     font-weight: 600;
     margin-bottom: 8px;
     color: #495057;
+    height: 24px; /* Fixed height for label consistency */
+    display: flex;
+    align-items: center;
 }
 
 .login-form-row .form-control {
@@ -240,6 +255,8 @@ body {
     padding: 12px 15px;
     font-size: 16px;
     transition: all 0.3s ease;
+    height: 50px; /* Fixed height for consistent alignment */
+    flex: 1; /* Take remaining space */
 }
 
 .login-form-row .form-control:focus {
@@ -248,14 +265,33 @@ body {
     outline: none;
 }
 
+/* Error message styling for inline layout */
+.login-form-row .form-group div[style*="color: red"] {
+    margin-top: 5px;
+    font-size: 14px;
+    min-height: 20px; /* Reserve space for errors */
+}
+
 /* Responsive login form - stack on mobile */
 @media (max-width: 768px) {
+    .login-form-row {
+        flex-direction: column; /* Stack vertically on mobile */
+        align-items: stretch; /* Full width on mobile */
+        gap: 15px;
+    }
+    
     .login-form-row .col-md-6 {
-        margin-bottom: 15px;
+        margin-bottom: 0; /* Remove extra margin on mobile */
+        width: 100%;
     }
     
     .login-form-row .form-control {
         font-size: 16px; /* Prevents zoom on iOS */
+        height: 50px; /* Maintain consistent height */
+    }
+    
+    .login-form-row .form-group label {
+        height: auto; /* Allow natural height on mobile */
     }
 }
 
