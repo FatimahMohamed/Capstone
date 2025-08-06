@@ -78,6 +78,12 @@ class GratitudeEntryForm(forms.ModelForm):
         self.fields['title'].help_text = (
             'Give your entry a meaningful title (optional)'
         )
+        
+        # Add empty option to mood field for HTML validation compliance
+        mood_choices = [('', 'Select your mood...')] + \
+            list(self.fields['mood'].choices)
+        self.fields['mood'].choices = mood_choices
+        
         # Add help text and validation to fields
         self.fields['content'].help_text = (
             'Express what you\'re grateful for in detail '
