@@ -26,7 +26,6 @@ The application aims to promote mental well-being and positive thinking by makin
   - [Gratitude Entry Management](#gratitude-entry-management)
   - [Mood Tracking System](#mood-tracking-system)
   - [Dashboard Overview](#dashboard-overview)
-  - [Search & Filter Capabilities](#search--filter-capabilities)
   - [Enhanced UX Features](#enhanced-ux-features)
   - [Data Management](#data-management)
 - [Deployment](#deployment)
@@ -129,20 +128,7 @@ As a logged-in user, I want to view and manage my profile information so that I 
 
 #### Should Haves
 
-**User Story 6: Search and Filter Entries**
-
-As a user with many journal entries, I want to search and filter my entries so that I can quickly find specific entries or content.  
-
-
-**Acceptance Criteria:**
-- User can search entries by title, content, or tags
-- User can filter entries by mood
-- User can filter entries by date range
-- User can sort entries by date, title, or mood
-- Search results show number of matching entries
-- User can clear all filters to return to full list
-
-**User Story 7: Entry Pagination**
+**User Story 6: Entry Pagination**
 
 As a user with many journal entries, I want to navigate through my entries in manageable chunks so that the page loads quickly and is easy to browse.  
 
@@ -153,10 +139,9 @@ As a user with many journal entries, I want to navigate through my entries in ma
 - User can navigate to first, previous, next, and last pages
 - Current page number is highlighted
 - Page numbers are clickable
-- Pagination works with search and filter results
 - URL reflects current page for bookmarking
 
-**User Story 8: Enhanced User Experience Features**
+**User Story 7: Enhanced User Experience Features**
 
 As a user, I want to have a smooth and intuitive experience so that I enjoy using the gratitude journal regularly.  
 
@@ -169,7 +154,7 @@ As a user, I want to have a smooth and intuitive experience so that I enjoy usin
 - Smooth transitions and hover effects
 - Consistent styling and branding throughout
 
-**User Story 9: Mood Tracking and Visualisation**
+**User Story 8: Mood Tracking and Visualisation**
 
 As a user, I want to track my mood patterns over time so that I can understand my emotional journey.  
 
@@ -179,12 +164,11 @@ As a user, I want to track my mood patterns over time so that I can understand m
 - Mood icons are visually distinct and colorful
 - Mood counts are displayed with visual indicators
 - Recent entries show mood with appropriate colors
-- Mood filter in entry list shows all available moods
 - Mood statistics exclude zero counts for cleaner display
 
 #### Could Haves
 
-**User Story 10: Gratitude Prompts and Inspiration**
+**User Story 9: Gratitude Prompts and Inspiration**
 
 As a user, I want to receive daily gratitude prompts so that I have inspiration when I'm unsure what to write about.  
 
@@ -197,7 +181,7 @@ As a user, I want to receive daily gratitude prompts so that I have inspiration 
 - Prompts are stored in database for consistency
 - Different prompts for different moods or themes
 
-**User Story 11: Streak Tracking**
+**User Story 10: Streak Tracking**
 
 As a user, I want to track my writing streak so that I stay motivated to write regularly.  
 
@@ -205,7 +189,7 @@ As a user, I want to track my writing streak so that I stay motivated to write r
 **Acceptance Criteria:**
 - Dashboard shows current writing streak (consecutive days)
 
-**User Story 12: Entry Templates and Quick Entry**
+**User Story 11: Entry Templates and Quick Entry**
 
 As a busy user, I want to have quick ways to create entries so that I can maintain my gratitude practice even on busy days.  
 
@@ -262,10 +246,6 @@ The mood tracking system is a distinctive feature that allows users to categoriz
 ## Dashboard Overview
 
 The dashboard serves as the central hub of the user experience, providing a personalized overview of the user's gratitude journey. It displays the total number of entries, shows previews of the three most recent entries, and presents mood distribution statistics in an easily digestible visual format. Quick action buttons make it simple to create new entries or browse through existing ones.
-
-## Search & Filter Capabilities
-
-The application includes robust search and filtering capabilities that help users navigate their growing collection of entries. Users can search through titles, content, and tags, filter entries by mood or date ranges, and sort their results by various criteria. The system provides clear feedback on search results and offers easy ways to clear filters and return to the full entry list.
 
 ## Enhanced UX Features
 

@@ -134,31 +134,6 @@
         });
     }
 
-    // Toggle advanced search
-    function toggleAdvancedSearch() {
-        var advancedSearch = document.getElementById('advanced-search'),
-            toggleBtn = document.querySelector(
-                '[onclick="toggleAdvancedSearch()"] i'
-            );
-
-        if (advancedSearch) {
-            if (advancedSearch.style.display === 'none' ||
-                    !advancedSearch.style.display) {
-                advancedSearch.style.display = 'block';
-                advancedSearch.classList.add('show');
-                if (toggleBtn) {
-                    toggleBtn.className = 'fas fa-times';
-                }
-            } else {
-                advancedSearch.style.display = 'none';
-                advancedSearch.classList.remove('show');
-                if (toggleBtn) {
-                    toggleBtn.className = 'fas fa-cog';
-                }
-            }
-        }
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
         var autoSaveTimer,
             forms;
@@ -256,8 +231,7 @@
     window.GratitudeJournal = {
         saveFormData: saveFormData,
         loadFormData: loadFormData,
-        clearFormData: clearFormData,
-        toggleAdvancedSearch: toggleAdvancedSearch
+        clearFormData: clearFormData
     };
 
 }());

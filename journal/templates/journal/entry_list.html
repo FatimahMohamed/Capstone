@@ -14,11 +14,7 @@
                     </h1>
                     <p class="text-muted">
                         {% if page_obj.paginator.count > 0 %}
-                            {% if request.GET.search or request.GET.mood or request.GET.date_from or request.GET.date_to %}
-                                Found {{ page_obj.paginator.count }} matching entr{{ page_obj.paginator.count|pluralize:"y,ies" }}
-                            {% else %}
-                                You have {{ page_obj.paginator.count }} gratitude entr{{ page_obj.paginator.count|pluralize:"y,ies" }}
-                            {% endif %}
+                            You have {{ page_obj.paginator.count }} gratitude entr{{ page_obj.paginator.count|pluralize:"y,ies" }}
                         {% else %}
                             Start your gratitude journey by creating your first entry
                         {% endif %}
@@ -28,71 +24,6 @@
                     <a href="{% url 'journal:create_entry' %}" class="btn btn-primary" aria-label="Create a new journal entry">
                         <i class="fas fa-plus"></i> New Entry
                     </a>
-                </div>
-            </div>
-
-            <!-- Search and Filter Section -->
-            <div class="card mb-4 border-0 shadow-sm">
-                <div class="card-body">
-                    <form method="get" class="row g-3">
-                        <div class="col-md-4">
-                            <label for="search" class="form-label">
-                                <i class="fas fa-search"></i> Search
-                            </label>
-                            <div class="input-group">
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="search" 
-                                       name="search" 
-                                       value="{{ request.GET.search }}"
-                                       placeholder="Search titles, content, or tags...">
-                                <button type="button" class="btn btn-outline-secondary" onclick="toggleAdvancedSearch()" data-bs-toggle="tooltip" title="Advanced Search" aria-label="Show or hide advanced search options">
-                                    <i class="fas fa-cog"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <label for="mood" class="form-label">
-                                <i class="fas fa-smile"></i> Mood
-                            </label>
-                            <select class="form-control" id="mood" name="mood">
-                                <option value="">All Moods</option>
-                                <option value="excellent" {% if request.GET.mood == 'excellent' %}selected{% endif %}>😄 Excellent</option>
-                                <option value="good" {% if request.GET.mood == 'good' %}selected{% endif %}>😊 Good</option>
-                                <option value="okay" {% if request.GET.mood == 'okay' %}selected{% endif %}>😐 Okay</option>
-                                <option value="difficult" {% if request.GET.mood == 'difficult' %}selected{% endif %}>😔 Difficult</option>
-                                <option value="challenging" {% if request.GET.mood == 'challenging' %}selected{% endif %}>😰 Challenging</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label for="date_from" class="form-label">
-                                <i class="fas fa-calendar"></i> From
-                            </label>
-                            <input type="date" 
-                                   class="form-control" 
-                                   id="date_from" 
-                                   name="date_from" 
-                                   value="{{ request.GET.date_from }}">
-                        </div>
-                        <div class="col-md-2">
-                            <label for="date_to" class="form-label">To</label>
-                            <input type="date" 
-                                   class="form-control" 
-                                   id="date_to" 
-                                   name="date_to" 
-                                   value="{{ request.GET.date_to }}">
-                        </div>
-                        <div class="col-md-2 d-flex align-items-end">
-                            <div class="w-100">
-                                <button type="submit" class="btn btn-primary w-100 mb-2" aria-label="Search journal entries with current filters">
-                                    <i class="fas fa-search"></i> Search
-                                </button>
-                                <a href="{% url 'journal:entry_list' %}" class="btn btn-outline-secondary w-100 btn-sm" aria-label="Clear all search filters and show all entries">
-                                    <i class="fas fa-times"></i> Clear
-                                </a>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
 
