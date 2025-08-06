@@ -341,7 +341,13 @@ All pages were put through the w3 HTML validator and they all had no errors or w
 
 ## CSS Validation
 
-The application's custom CSS was validated using the W3C CSS Validator and passed without any errors. However, the validator reported numerous warnings related to modern CSS features and third-party frameworks, which are expected and do not affect functionality or performance:
+**Validation Context:**
+The W3C CSS Validator has not been updated to fully recognize modern CSS3 features and framework patterns. These warnings indicate the use of:
+- Advanced CSS3 specifications that are widely supported but not yet in the validator's ruleset
+- Vendor prefixes that ensure cross-browser compatibility
+- Framework-specific design patterns that are industry standard
+
+The validator reported numerous warnings related to modern CSS features and third-party frameworks, which are expected and do not affect functionality or performance:
 
 **Third-Party Framework Warnings:**
 
@@ -360,12 +366,6 @@ The application's custom CSS was validated using the W3C CSS Validator and passe
 - Vendor prefixes for animations, transforms, and transitions provide fallback support for older browsers
 - CSS custom properties (variables) enable dynamic theming and component customization
 - Vendor-extended pseudo-elements allow fine-grained control over browser-specific styling
-
-**Validation Context:**
-The W3C CSS Validator has not been updated to fully recognize modern CSS3 features and framework patterns. These warnings indicate the use of:
-- Advanced CSS3 specifications that are widely supported but not yet in the validator's ruleset
-- Vendor prefixes that ensure cross-browser compatibility
-- Framework-specific design patterns that are industry standard
 
 **Custom Application CSS:** All custom styles written specifically for the Gratitude Journal application passed CSS validation without errors, ensuring clean, standards-compliant styling for the user interface components, animations, and responsive design elements.
 
