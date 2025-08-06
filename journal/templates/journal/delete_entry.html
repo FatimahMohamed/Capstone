@@ -2,6 +2,32 @@
 
 {% block title %}Delete Entry - {{ entry.created_at|date:"M d, Y" }} - Gratitude Journal{% endblock %}
 
+{% block extra_css %}
+<style>
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.entry-preview {
+    border-left: 4px solid #dc3545;
+}
+
+.content-preview {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.card-header.bg-danger {
+    background-color: #dc3545 !important;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -144,28 +170,4 @@
         </div>
     </div>
 </div>
-
-<style>
-.opacity-75 {
-    opacity: 0.75;
-}
-
-.entry-preview {
-    border-left: 4px solid #dc3545;
-}
-
-.content-preview {
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-    border-color: #bd2130;
-}
-
-.card-header.bg-danger {
-    background-color: #dc3545 !important;
-}
-</style>
 {% endblock %}

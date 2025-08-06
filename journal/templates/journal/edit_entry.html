@@ -2,6 +2,57 @@
 
 {% block title %}Edit Entry - {{ entry.created_at|date:"M d, Y" }} - Gratitude Journal{% endblock %}
 
+{% block extra_css %}
+<style>
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+.custom-control-label {
+    font-weight: 500;
+}
+
+textarea.form-control {
+    min-height: 120px;
+}
+
+.card-header.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.card-header.bg-warning small {
+    color: rgba(33, 37, 41, 0.75) !important;
+}
+
+.character-count {
+    text-align: right;
+    margin-top: 2px;
+}
+
+.character-count.warning {
+    color: #ffc107 !important;
+}
+
+.character-count.danger {
+    color: #dc3545 !important;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.form-control.is-valid {
+    border-color: #28a745;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -153,55 +204,6 @@
         </div>
     </div>
 </div>
-
-<style>
-.opacity-75 {
-    opacity: 0.75;
-}
-
-.form-control:focus {
-    border-color: #ffc107;
-    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
-}
-
-.custom-control-label {
-    font-weight: 500;
-}
-
-textarea.form-control {
-    min-height: 120px;
-}
-
-.card-header.bg-warning {
-    background-color: #ffc107 !important;
-    color: #212529 !important;
-}
-
-.card-header.bg-warning small {
-    color: rgba(33, 37, 41, 0.75) !important;
-}
-
-.character-count {
-    text-align: right;
-    margin-top: 2px;
-}
-
-.character-count.warning {
-    color: #ffc107 !important;
-}
-
-.character-count.danger {
-    color: #dc3545 !important;
-}
-
-.form-control.is-invalid {
-    border-color: #dc3545;
-}
-
-.form-control.is-valid {
-    border-color: #28a745;
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
