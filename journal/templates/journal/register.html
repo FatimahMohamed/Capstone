@@ -98,10 +98,11 @@
         {% endif %}
     </div>
     
-    <button type="submit" class="btn">Create Account</button>
+    <button type="submit" class="btn btn-auth btn-auth-success">🚀 Create My Account</button>
 </form>
 
-<p style="margin-top: 20px;">
-    Already have an account? <a href="{% url 'journal:login' %}">Login here</a>
-</p>
+<div style="text-align: center; margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">
+    <p style="margin-bottom: 15px; color: #666;">Already have an account?</p>
+    <a href="{% url 'journal:login' %}" class="btn btn-auth btn-auth-primary" style="font-size: 16px;">🔐 Login Here</a>
+</div>
 {% endblock %}

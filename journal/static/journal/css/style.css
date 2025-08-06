@@ -109,6 +109,7 @@ body {
     font-weight: 600;
     transition: all 0.3s ease;
     border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn:hover {
@@ -118,6 +119,12 @@ body {
 
 .btn-primary {
     background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+    color: white;
 }
 
 .btn-success {
@@ -131,6 +138,85 @@ body {
 
 .btn-danger {
     background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+/* Authentication Buttons - Extra Prominent */
+.btn-auth {
+    border-radius: 30px;
+    padding: 15px 30px;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-auth:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+}
+
+.btn-auth-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border-color: #0056b3;
+}
+
+.btn-auth-primary:hover {
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+    color: white;
+    border-color: #004085;
+}
+
+.btn-auth-success {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    color: white;
+    border-color: #1e7e34;
+}
+
+.btn-auth-success:hover {
+    background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
+    color: white;
+    border-color: #155724;
+}
+
+.btn-auth-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    color: white;
+    border-color: #495057;
+}
+
+.btn-auth-secondary:hover {
+    background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+    color: white;
+    border-color: #343a40;
+}
+
+/* Responsive Button Styles */
+@media (max-width: 768px) {
+    .btn-auth {
+        padding: 12px 25px;
+        font-size: 14px;
+        width: 100%;
+        margin: 10px 0;
+        text-align: center;
+    }
+    
+    .btn-auth + .btn-auth {
+        margin-top: 15px;
+    }
+}
+
+/* Button Focus States for Accessibility */
+.btn-auth:focus,
+.btn:focus {
+    outline: 3px solid rgba(0, 123, 255, 0.5);
+    outline-offset: 2px;
 }
 
 /* Badge Styling */

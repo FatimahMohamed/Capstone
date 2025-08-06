@@ -34,10 +34,11 @@
         </div>
     {% endif %}
     
-    <button type="submit" class="btn">Login</button>
+    <button type="submit" class="btn btn-auth btn-auth-primary">🔐 Login to Account</button>
 </form>
 
-<p style="margin-top: 20px;">
-    Don't have an account? <a href="{% url 'journal:register' %}">Register here</a>
-</p>
+<div style="text-align: center; margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">
+    <p style="margin-bottom: 15px; color: #666;">Don't have an account yet?</p>
+    <a href="{% url 'journal:register' %}" class="btn btn-auth btn-auth-success" style="font-size: 16px;">🚀 Create Account Free</a>
+</div>
 {% endblock %}
