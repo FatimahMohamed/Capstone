@@ -12,7 +12,7 @@ urlpatterns = [
          name='change_password'),
     path('login/', views.CustomLoginView.as_view(), name='login'),
     path('logout/', views.CustomLogoutView.as_view(), name='logout'),
-    
+
     # Journal Entry URLs
     path('entries/', views.entry_list, name='entry_list'),
     path('entries/create/', views.create_entry, name='create_entry'),

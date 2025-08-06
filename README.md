@@ -11,6 +11,38 @@ The application aims to promote mental well-being and positive thinking by makin
 
 ## Table of Contents
 
+- [Overview](#overview)
+- [UX Design](#ux-design)
+  - [User Stories](#user-stories)
+    - [Must Haves](#must-haves)
+    - [Should Haves](#should-haves)
+    - [Could Haves](#could-haves)
+  - [Wireframes](#wireframes)
+  - [ERD](#erd)
+  - [Colours](#colours)
+  - [Font](#font)
+- [Key Features](#key-features)
+  - [User Authentication & Management](#user-authentication--management)
+  - [Gratitude Entry Management](#gratitude-entry-management)
+  - [Mood Tracking System](#mood-tracking-system)
+  - [Dashboard Overview](#dashboard-overview)
+  - [Search & Filter Capabilities](#search--filter-capabilities)
+  - [Enhanced UX Features](#enhanced-ux-features)
+  - [Data Management](#data-management)
+- [Deployment](#deployment)
+- [AI Implementation & Orchestration](#ai-impelementation--orchestration)
+- [Testing](#testing)
+  - [Desktop Lighthouse Reports](#desktop-lighthouse-reports)
+  - [Mobile Lighthouse Reports](#mobile-lighthouse-reports)
+  - [HTML Validation](#html-validation)
+  - [CSS Validation](#css-validation)
+  - [Python Validation](#python-validation)
+  - [JavaScript Validation](#javascript-validation)
+  - [Manual Testing](#manual-testing)
+  - [Automated Testing](#automated-testing)
+- [Future Enhancements](#future-enhancements)
+- [Credits](#credits)
+
 ## UX Design
 
 ### User Stories
@@ -300,3 +332,112 @@ The best practices scored 100 for all the pages tested. The performance was slig
 ![Mobile lighthouse report for the new entry page of the website](readme/mobile3.png)
 
 ![Desktop lighthouse report for the dashboard page of the website](readme/mobile4.png)
+
+## HTML Validation
+
+All pages were put through the w3 HTML validator and they all had no errors or warnings to show.
+
+![HTML validator showing no errors or warnings](readme/HTML%20Validation.png)
+
+## CSS Validation
+
+The application's custom CSS was validated using the W3C CSS Validator and passed without any errors. However, the validator reported numerous warnings related to modern CSS features and third-party frameworks, which are expected and do not affect functionality or performance:
+
+**Third-Party Framework Warnings:**
+
+*FontAwesome 6 CSS Variables:*
+- Animation delay and transform warnings for CSS custom properties (`var(--fa-animation-delay, 0)`, `var(--fa-rotate-angle, none)`)
+- Vendor-specific webkit animation properties and keyframes
+- These are legitimate CSS3 features used for dynamic animations
+
+*Bootstrap 5 Framework:*
+- Vendor-specific webkit/moz prefixes for cross-browser compatibility (`-webkit-font-smoothing`, `-moz-osx-font-smoothing`)
+- CSS custom properties warnings ("Due to their dynamic nature, CSS variables are currently not statically checked")
+- Vendor-extended pseudo-elements (`::-webkit-scrollbar`, `::-moz-placeholder`)
+- Same color warnings for background and border (intentional design choices in Bootstrap)
+
+*Modern CSS Features:*
+- Vendor prefixes for animations, transforms, and transitions provide fallback support for older browsers
+- CSS custom properties (variables) enable dynamic theming and component customization
+- Vendor-extended pseudo-elements allow fine-grained control over browser-specific styling
+
+**Validation Context:**
+The W3C CSS Validator has not been updated to fully recognize modern CSS3 features and framework patterns. These warnings indicate the use of:
+- Advanced CSS3 specifications that are widely supported but not yet in the validator's ruleset
+- Vendor prefixes that ensure cross-browser compatibility
+- Framework-specific design patterns that are industry standard
+
+**Custom Application CSS:** All custom styles written specifically for the Gratitude Journal application passed CSS validation without errors, ensuring clean, standards-compliant styling for the user interface components, animations, and responsive design elements.
+
+![CSS validator showing warnings and errors](readme/css%20validation.png)
+
+## Python Validation
+
+Code Institute's Python Linter was used. All python files has no errors.
+
+![Code Institute's Python Linter showing no errors](readme/python%20validation.png)
+
+## Javascript Validation
+
+I used [code beautify](https://codebeautify.org/jsvalidate#) to validate my javascript. There were no errors to show. 
+
+![Javascript validator showing no errors](readme/javascript.png)
+
+## Manual Testing
+
+The application was tested manually to make sure user authentication and CRUD functionality were working. I also tested the accessibility and the responsiveness to different screen sizes. I found everything to be working fine.
+
+## Automated Testing
+
+I used chat GPT to implement comprehensive automated testing to ensure robust functionality and code reliability across all CRUD operations. The test suite consists of 26 automated tests covering three main areas:
+
+**Test Coverage:**
+
+**CRUD Operations Testing (18 tests)**
+
+- Create: Tests for authenticated/unauthenticated access, valid/invalid data submission, and proper form handling
+
+- Read: Entry listing, search functionality, mood filtering, pagination, and user-specific data isolation
+
+- Update: Edit form access, data validation, unauthorized access prevention, and successful updates
+
+- Delete: Confirmation views, successful deletion, and security restrictions
+
+**User Authentication Testing (4 tests)**
+
+- User registration with form validation
+- Login/logout functionality
+- Profile management and access control
+- Proper URL redirections for unauthenticated users
+
+**Model Testing (4 tests)**
+
+- Database model creation with all fields
+- Minimal field requirements and default values
+- String representation formatting
+- Proper data ordering (newest entries first)
+
+**Security & Data Isolation**
+
+Every test verifies that users can only access their own data, with 404 responses returned for unauthorized access attempts. The test suite validates that:
+
+- Users cannot view, edit, or delete other users' entries
+- Authentication is required for all protected operations
+- Proper redirections occur for unauthenticated access
+
+**Test Results**
+
+All 26 tests passed successfully, providing confidence in the application's reliability and security. The automated testing ensures that future code changes won't break existing functionality and that all user interactions behave as expected in production.
+
+# Future Enhancements
+- Pre-defined templates for common gratitude themes
+- Quick entry mode with minimal fields
+- Voice-to-text capability for mobile users
+- One-click entry creation from prompts
+- Templates can be customized by user
+- Quick entry still captures essential data (mood, content)
+- Dashboard displays a daily gratitude prompt
+
+# Credits
+
+I would like to credit Code Institute, in particular the walk-through blog for aiding with the set up of the gratitutde journal. I would also like to credit chatGPT for its amazing assistance throughout the project.

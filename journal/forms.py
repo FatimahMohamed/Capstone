@@ -39,7 +39,7 @@ class GratitudeEntryForm(forms.ModelForm):
     """
     Form for creating and editing gratitude entries with enhanced validation
     """
-    
+
     class Meta:
         model = GratitudeEntry
         fields = ['title', 'content', 'mood', 'tags', 'is_private']
@@ -70,7 +70,7 @@ class GratitudeEntryForm(forms.ModelForm):
                 'class': 'form-check-input'
             }),
         }
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Make title field optional
@@ -78,12 +78,12 @@ class GratitudeEntryForm(forms.ModelForm):
         self.fields['title'].help_text = (
             'Give your entry a meaningful title (optional)'
         )
-        
+
         # Add empty option to mood field for HTML validation compliance
         mood_choices = [('', 'Select your mood...')] + \
             list(self.fields['mood'].choices)
         self.fields['mood'].choices = mood_choices
-        
+
         # Add help text and validation to fields
         self.fields['content'].help_text = (
             'Express what you\'re grateful for in detail '
@@ -93,7 +93,7 @@ class GratitudeEntryForm(forms.ModelForm):
         self.fields['is_private'].help_text = (
             'Uncheck to make this entry visible to others'
         )
-        
+
         # Add Bootstrap validation classes
         for field_name, field in self.fields.items():
             if field_name != 'is_private':
@@ -122,7 +122,7 @@ class GratitudeEntryForm(forms.ModelForm):
         content = self.cleaned_data.get('content')
         if not content:
             raise forms.ValidationError('Content is required.')
-        
+
         content = content.strip()
         if len(content) < 10:
             raise forms.ValidationError(
@@ -133,13 +133,13 @@ class GratitudeEntryForm(forms.ModelForm):
             raise forms.ValidationError(
                 'Content must be 5000 characters or less.'
             )
-        
+
         # Check for meaningful content (not just repeated characters)
         if len(set(content.replace(' ', '').lower())) < 3:
             raise forms.ValidationError(
                 'Please write meaningful content about your gratitude.'
             )
-        
+
         return content
 
     def clean_tags(self):
@@ -148,8 +148,9 @@ class GratitudeEntryForm(forms.ModelForm):
         if tags:
             tags = tags.strip()
             # Split tags and validate
-            tag_list = [tag.strip() for tag in tags.split(',') if tag.strip()]
-            
+            tag_list = [tag.strip() for tag in tags.split(',')
+                        if tag.strip()]
+
             # Validate individual tags
             for tag in tag_list:
                 if len(tag) > 30:
@@ -162,13 +163,13 @@ class GratitudeEntryForm(forms.ModelForm):
                         f'Tag "{tag}" contains invalid characters. Use only '
                         f'letters, numbers, and spaces.'
                     )
-            
+
             # Limit number of tags
             if len(tag_list) > 10:
                 raise forms.ValidationError(
                     'You can have a maximum of 10 tags per entry.'
                 )
-            
+
             # Return cleaned tags as comma-separated string
             return ', '.join(tag_list)
         return tags
@@ -176,16 +177,16 @@ class GratitudeEntryForm(forms.ModelForm):
     def clean(self):
         """Overall form validation"""
         cleaned_data = super().clean()
-        
+
         # Additional validation can be added here for cross-field validation
         content = cleaned_data.get('content')
         title = cleaned_data.get('title')
-        
+
         # If title and content are very similar, suggest improvement
         if title and content and title.lower() in content.lower()[:50]:
             self.add_error(
                 'title',
                 'Consider making your title more unique from your content.'
             )
-        
+
         return cleaned_data

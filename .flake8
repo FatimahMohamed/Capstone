@@ -1,0 +1,15 @@
+[flake8]
+max-line-length = 88
+extend-ignore = E203, W503
+exclude = 
+    .venv,
+    venv,
+    __pycache__,
+    .git,
+    .tox,
+    migrations,
+    node_modules,
+    staticfiles
+per-file-ignores =
+    */settings*.py:F403,F405
+    env.py:F403,F405

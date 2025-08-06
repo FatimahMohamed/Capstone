@@ -44,13 +44,13 @@ def dashboard(request):
     user_entries = GratitudeEntry.objects.filter(user=request.user)
     total_entries = user_entries.count()
     recent_entries = user_entries.order_by('-created_at')[:3]
-    
+
     # Calculate mood distribution
     mood_stats = {}
     for mood_value, mood_label in GratitudeEntry.MOOD_CHOICES:
         count = user_entries.filter(mood=mood_value).count()
         mood_stats[mood_value] = {'label': mood_label, 'count': count}
-    
+
     context = {
         'total_entries': total_entries,
         'recent_entries': recent_entries,
@@ -85,7 +85,6 @@ def change_password_view(request):
 
 
 @login_required
-@login_required
 def create_entry(request):
     """Create a new gratitude entry with enhanced error handling"""
     if request.method == 'POST':
@@ -113,7 +112,7 @@ def create_entry(request):
             )
     else:
         form = GratitudeEntryForm()
-    
+
     return render(request, 'journal/create_entry.html', {'form': form})
 
 
@@ -121,7 +120,7 @@ def create_entry(request):
 def entry_list(request):
     """List all user's entries with search and filtering"""
     entries = GratitudeEntry.objects.filter(user=request.user)
-    
+
     # Search functionality
     search_query = request.GET.get('search', '')
     if search_query:
@@ -130,12 +129,12 @@ def entry_list(request):
             Q(content__icontains=search_query) |
             Q(tags__icontains=search_query)
         )
-    
+
     # Mood filter
     mood_filter = request.GET.get('mood', '')
     if mood_filter:
         entries = entries.filter(mood=mood_filter)
-    
+
     # Date range filter
     date_from = request.GET.get('date_from', '')
     date_to = request.GET.get('date_to', '')
@@ -143,7 +142,7 @@ def entry_list(request):
         entries = entries.filter(created_at__date__gte=date_from)
     if date_to:
         entries = entries.filter(created_at__date__lte=date_to)
-    
+
     # Sorting
     sort_by = request.GET.get('sort', '-created_at')
     valid_sort_options = [
@@ -153,15 +152,15 @@ def entry_list(request):
         entries = entries.order_by(sort_by)
     else:
         entries = entries.order_by('-created_at')
-    
+
     # Pagination
     paginator = Paginator(entries, 10)  # Show 10 entries per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+
     # Get mood choices for filter dropdown
     mood_choices = GratitudeEntry.MOOD_CHOICES
-    
+
     context = {
         'page_obj': page_obj,
         'search_query': search_query,
@@ -172,7 +171,7 @@ def entry_list(request):
         'mood_choices': mood_choices,
         'total_results': entries.count(),
     }
-    
+
     return render(request, 'journal/entry_list.html', context)
 
 
@@ -187,7 +186,7 @@ def entry_detail(request, entry_id):
 def edit_entry(request, entry_id):
     """Edit an existing entry with enhanced error handling"""
     entry = get_object_or_404(GratitudeEntry, id=entry_id, user=request.user)
-    
+
     if request.method == 'POST':
         form = GratitudeEntryForm(request.POST, instance=entry)
         if form.is_valid():
@@ -211,7 +210,7 @@ def edit_entry(request, entry_id):
             )
     else:
         form = GratitudeEntryForm(instance=entry)
-    
+
     return render(request, 'journal/edit_entry.html', {
         'form': form,
         'entry': entry
@@ -222,12 +221,12 @@ def edit_entry(request, entry_id):
 def delete_entry(request, entry_id):
     """Delete an entry"""
     entry = get_object_or_404(GratitudeEntry, id=entry_id, user=request.user)
-    
+
     if request.method == 'POST':
         entry.delete()
         messages.success(request, 'Your entry has been deleted.')
         return redirect('journal:entry_list')
-    
+
     return render(request, 'journal/delete_entry.html', {'entry': entry})
 
 
@@ -235,7 +234,7 @@ def delete_entry(request, entry_id):
 class CustomLoginView(LoginView):
     """Custom login view with welcome message"""
     template_name = 'journal/login.html'
-    
+
     def form_valid(self, form):
         """Add welcome message on successful login"""
         response = super().form_valid(form)
@@ -250,7 +249,7 @@ class CustomLoginView(LoginView):
 
 class CustomLogoutView(LogoutView):
     """Custom logout view with goodbye message"""
-    
+
     def dispatch(self, request, *args, **kwargs):
         """Add goodbye message before logout"""
         if request.user.is_authenticated:
@@ -260,5 +259,3 @@ class CustomLogoutView(LogoutView):
                 f'Goodbye, {username}! You have been successfully logged out.'
             )
         return super().dispatch(request, *args, **kwargs)
-
-
