@@ -204,7 +204,7 @@ As a busy user, I want to have quick ways to create entries so that I can mainta
 
 ### Wireframes
 
-The wireframes for the Gratitude Journal application were created using Balsamiq Wireframes to visualize the user interface design and layout before development. These wireframes helped establish the information architecture, user flow, and responsive design considerations for both desktop and mobile experiences.
+The wireframes for the Gratitude Journal application were created using Balsamiq Wireframes to visualize the user interface design and layout before development. These wireframes helped establish the information architecture, user flow, and responsive design considerations for both desktop and mobile experiences. The search functionality shown in the wireframes was omitted from the final project. If I had more time, I would include this feature.
 
 
 ![desktop and mobile wireframes for the my entries page](Readme/My-entries-wireframes.png)
@@ -410,6 +410,7 @@ Every test verifies that users can only access their own data, with 404 response
 All 26 tests passed successfully, providing confidence in the application's reliability and security. The automated testing ensures that future code changes won't break existing functionality and that all user interactions behave as expected in production.
 
 # Future Enhancements
+- Entry search functionality
 - Pre-defined templates for common gratitude themes
 - Quick entry mode with minimal fields
 - Voice-to-text capability for mobile users
