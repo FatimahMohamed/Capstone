@@ -264,8 +264,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="{% static 'journal/js/app.js' %}" defer></script>
     
-    <!-- Non-critical functionality - deferred -->
-    <script defer>
+    <!-- Non-critical functionality - inline script -->
+    <script>
         // Service Worker registration for caching critical resources
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
