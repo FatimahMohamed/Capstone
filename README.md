@@ -272,3 +272,31 @@ I leveraged artificial intelligence as a comprehensive development partner throu
 **Deployment Optimization:** During the Heroku deployment process, AI provided guidance on production settings, environment variable configuration, and static file management. This collaboration resulted in a robust, scalable deployment that handles both development and production environments seamlessly.
 
 **AI Limitations:** Although AI was a powerful tool in the development of the gratitude journaling application, its usage had some drawbacks including providing incorrect solutions as well as advising of unnecessary steps.
+
+# Testing
+
+I tested the application on my windows laptop and on my chromebook to see if there were any bugs that needed to be fixed. I also tested the application on my android phone.
+
+Furthermore, I ran lighthouse tests using chrome developer tools to obtain scores for the pages' performance, accessibility and best practices. I tested for both the desktop and mobile pages. 
+
+The best practices scored 100 for all the pages tested. The performance was slightly reduced due to the styling. The accessibility was also slightly reduced due background and foreground contrast ration as well as the heading elements not being in sequential order. If I had more time, I would work on these issues to improve the scores further.
+
+## Desktop Lighthouse Reports
+
+![Desktop lighthouse report for the home page of the website](readme/desktop1.png)
+
+![Desktop lighthouse report for the entries page of the website](readme/desktop2.png)
+
+![Desktop lighthouse report for the new entry page of the website](readme/desktop3.png)
+
+![Desktop lighthouse report for the dashboard page of the website](readme/desktop4.png)
+
+## Mobile Lighthouse Reports
+
+![Mobile lighthouse report for the home page of the website](readme/mobile1.png)
+
+![Mobile lighthouse report for the entries page of the website](readme/mobile2.png)
+
+![Mobile lighthouse report for the new entry page of the website](readme/mobile3.png)
+
+![Desktop lighthouse report for the dashboard page of the website](readme/mobile4.png)
