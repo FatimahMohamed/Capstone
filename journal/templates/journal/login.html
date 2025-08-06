@@ -8,24 +8,31 @@
 <form method="post">
     {% csrf_token %}
     
-    <div class="form-group">
-        <label for="{{ form.username.id_for_label }}">Username:</label>
-        {{ form.username }}
-        {% if form.username.errors %}
-            <div style="color: red; font-size: 14px;">
-                {{ form.username.errors.0 }}
+    <!-- Inline Username and Password Fields -->
+    <div class="row login-form-row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username:</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div style="color: red; font-size: 14px;">
+                        {{ form.username.errors.0 }}
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
-    </div>
-    
-    <div class="form-group">
-        <label for="{{ form.password.id_for_label }}">Password:</label>
-        {{ form.password }}
-        {% if form.password.errors %}
-            <div style="color: red; font-size: 14px;">
-                {{ form.password.errors.0 }}
+        </div>
+        
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Password:</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div style="color: red; font-size: 14px;">
+                        {{ form.password.errors.0 }}
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
+        </div>
     </div>
     
     {% if form.non_field_errors %}
@@ -34,7 +41,10 @@
         </div>
     {% endif %}
     
-    <button type="submit" class="btn btn-auth btn-auth-primary">🔐 Login to Account</button>
+    <!-- Added spacing above login button -->
+    <div style="margin-top: 25px;">
+        <button type="submit" class="btn btn-auth btn-auth-primary">🔐 Login to Account</button>
+    </div>
 </form>
 
 <div style="text-align: center; margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">

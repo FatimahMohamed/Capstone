@@ -219,6 +219,46 @@ body {
     outline-offset: 2px;
 }
 
+/* Login Form Inline Layout */
+.login-form-row {
+    margin-bottom: 20px;
+}
+
+.login-form-row .form-group {
+    margin-bottom: 20px;
+}
+
+.login-form-row .form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #495057;
+}
+
+.login-form-row .form-control {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.login-form-row .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+/* Responsive login form - stack on mobile */
+@media (max-width: 768px) {
+    .login-form-row .col-md-6 {
+        margin-bottom: 15px;
+    }
+    
+    .login-form-row .form-control {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
 /* Badge Styling */
 .badge {
     border-radius: 15px;
