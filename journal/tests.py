@@ -15,7 +15,7 @@ class GratitudeEntryViewsTestCase(TestCase):
     def setUp(self):
         """Set up test data before each test method"""
         self.client = Client()
-        
+
         # Create test users
         self.user1 = User.objects.create_user(
             username='testuser1',
@@ -27,7 +27,7 @@ class GratitudeEntryViewsTestCase(TestCase):
             email='test2@example.com',
             password='testpass123'
         )
-        
+
         # Create test entries
         self.entry1 = GratitudeEntry.objects.create(
             user=self.user1,
@@ -58,14 +58,14 @@ class GratitudeEntryViewsTestCase(TestCase):
         """Test GET request to create entry view when authenticated"""
         self.client.login(username='testuser1', password='testpass123')
         response = self.client.get(reverse('journal:create_entry'))
-        
+
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context['form'], GratitudeEntryForm)
 
     def test_create_entry_get_unauthenticated(self):
         """Test GET request to create entry view when not authenticated"""
         response = self.client.get(reverse('journal:create_entry'))
-        
+
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
             response,
@@ -75,7 +75,7 @@ class GratitudeEntryViewsTestCase(TestCase):
     def test_create_entry_post_valid_data(self):
         """Test POST request to create entry with valid data"""
         self.client.login(username='testuser1', password='testpass123')
-        
+
         data = {
             'title': 'New Test Entry',
             'content': 'I am grateful for successful testing.',
@@ -83,9 +83,9 @@ class GratitudeEntryViewsTestCase(TestCase):
             'tags': 'testing, success',
             'is_private': True
         }
-        
+
         response = self.client.post(reverse('journal:create_entry'), data)
-        
+
         # Check entry was created
         new_entry = GratitudeEntry.objects.filter(
             title='New Test Entry'
@@ -93,14 +93,14 @@ class GratitudeEntryViewsTestCase(TestCase):
         self.assertIsNotNone(new_entry)
         self.assertEqual(new_entry.user, self.user1)
         self.assertEqual(new_entry.content, data['content'])
-        
+
         # Check redirect to entry detail
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
             response,
             reverse('journal:entry_detail', args=[new_entry.id])
         )
-        
+
         # Check success message
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
@@ -109,7 +109,7 @@ class GratitudeEntryViewsTestCase(TestCase):
     def test_create_entry_post_invalid_data(self):
         """Test POST request to create entry with invalid data"""
         self.client.login(username='testuser1', password='testpass123')
-        
+
         data = {
             'title': '',
             'content': '',  # Required field
@@ -117,12 +117,12 @@ class GratitudeEntryViewsTestCase(TestCase):
             'tags': '',
             'is_private': True
         }
-        
+
         response = self.client.post(reverse('journal:create_entry'), data)
-        
+
         # Should stay on same page with form errors
         self.assertEqual(response.status_code, 200)
-        
+
         # Check no entry was created
         self.assertEqual(GratitudeEntry.objects.count(), 3)  # Still 3 from setUp
 
@@ -130,12 +130,12 @@ class GratitudeEntryViewsTestCase(TestCase):
         """Test entry list view for authenticated user"""
         self.client.login(username='testuser1', password='testpass123')
         response = self.client.get(reverse('journal:entry_list'))
-        
+
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Test Entry 1')
         self.assertContains(response, 'Test Entry 2')
         self.assertNotContains(response, 'User 2 Entry')  # Other user's entry
-        
+
         # Check context data
         self.assertEqual(response.context['total_results'], 2)
         self.assertEqual(len(response.context['page_obj']), 2)
@@ -143,7 +143,7 @@ class GratitudeEntryViewsTestCase(TestCase):
     def test_entry_list_search_functionality(self):
         """Test search functionality in entry list"""
         self.client.login(username='testuser1', password='testpass123')
-        
+
         # Search by title
         response = self.client.get(
             reverse('journal:entry_list'),
@@ -152,7 +152,7 @@ class GratitudeEntryViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Test Entry 1')
         self.assertNotContains(response, 'Test Entry 2')
-        
+
         # Search by content
         response = self.client.get(
             reverse('journal:entry_list'),
@@ -165,7 +165,7 @@ class GratitudeEntryViewsTestCase(TestCase):
     def test_entry_list_mood_filter(self):
         """Test mood filtering in entry list"""
         self.client.login(username='testuser1', password='testpass123')
-        
+
         response = self.client.get(
             reverse('journal:entry_list'),
             {'mood': 'excellent'}
@@ -180,7 +180,7 @@ class GratitudeEntryViewsTestCase(TestCase):
         response = self.client.get(
             reverse('journal:entry_detail', args=[self.entry1.id])
         )
-        
+
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.entry1.title)
         self.assertContains(response, self.entry1.content)
@@ -192,19 +192,19 @@ class GratitudeEntryViewsTestCase(TestCase):
         response = self.client.get(
             reverse('journal:entry_detail', args=[self.entry3.id])
         )
-        
+
         self.assertEqual(response.status_code, 404)
 
     def test_edit_entry_get_authenticated(self):
         """Test GET request to edit entry view when authenticated"""
         self.client.login(username='testuser1', password='testpass123')
-        
+
         # Test the core functionality: entry belongs to user and exists
         entry = GratitudeEntry.objects.get(id=self.entry1.id, user=self.user1)
         self.assertEqual(entry, self.entry1)
         self.assertEqual(entry.title, 'Test Entry 1')
         self.assertEqual(entry.user, self.user1)
-        
+
         # Test that unauthorized users cannot access
         self.client.login(username='testuser2', password='testpass123')
         response = self.client.get(
@@ -215,7 +215,7 @@ class GratitudeEntryViewsTestCase(TestCase):
     def test_edit_entry_post_valid_data(self):
         """Test POST request to edit entry with valid data"""
         self.client.login(username='testuser1', password='testpass123')
-        
+
         data = {
             'title': 'Updated Test Entry',
             'content': 'I am grateful for successful updates.',
@@ -223,26 +223,26 @@ class GratitudeEntryViewsTestCase(TestCase):
             'tags': 'testing, updates',
             'is_private': False
         }
-        
+
         response = self.client.post(
             reverse('journal:edit_entry', args=[self.entry1.id]),
             data
         )
-        
+
         # Check entry was updated
         updated_entry = GratitudeEntry.objects.get(id=self.entry1.id)
         self.assertEqual(updated_entry.title, data['title'])
         self.assertEqual(updated_entry.content, data['content'])
         self.assertEqual(updated_entry.mood, data['mood'])
         self.assertFalse(updated_entry.is_private)
-        
+
         # Check redirect to entry detail
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
             response,
             reverse('journal:entry_detail', args=[self.entry1.id])
         )
-        
+
         # Check success message
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
@@ -254,7 +254,7 @@ class GratitudeEntryViewsTestCase(TestCase):
         response = self.client.get(
             reverse('journal:edit_entry', args=[self.entry3.id])
         )
-        
+
         self.assertEqual(response.status_code, 404)
 
     def test_delete_entry_get_authenticated(self):
@@ -263,7 +263,7 @@ class GratitudeEntryViewsTestCase(TestCase):
         response = self.client.get(
             reverse('journal:delete_entry', args=[self.entry1.id])
         )
-        
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['entry'], self.entry1)
 
@@ -271,20 +271,20 @@ class GratitudeEntryViewsTestCase(TestCase):
         """Test POST request to delete entry when authenticated"""
         self.client.login(username='testuser1', password='testpass123')
         entry_id = self.entry1.id
-        
+
         response = self.client.post(
             reverse('journal:delete_entry', args=[entry_id])
         )
-        
+
         # Check entry was deleted
         self.assertFalse(
             GratitudeEntry.objects.filter(id=entry_id).exists()
         )
-        
+
         # Check redirect to entry list
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('journal:entry_list'))
-        
+
         # Check success message
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
@@ -296,18 +296,18 @@ class GratitudeEntryViewsTestCase(TestCase):
         response = self.client.get(
             reverse('journal:delete_entry', args=[self.entry3.id])
         )
-        
+
         self.assertEqual(response.status_code, 404)
 
     def test_dashboard_view_authenticated(self):
         """Test dashboard view for authenticated user"""
         self.client.login(username='testuser1', password='testpass123')
         response = self.client.get(reverse('journal:dashboard'))
-        
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['total_entries'], 2)
         self.assertEqual(len(response.context['recent_entries']), 2)
-        
+
         # Check mood statistics
         mood_stats = response.context['mood_stats']
         self.assertEqual(mood_stats['good']['count'], 1)
@@ -316,7 +316,7 @@ class GratitudeEntryViewsTestCase(TestCase):
     def test_dashboard_view_unauthenticated(self):
         """Test dashboard view when not authenticated"""
         response = self.client.get(reverse('journal:dashboard'))
-        
+
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
             response,
@@ -342,7 +342,7 @@ class UserAuthenticationViewsTestCase(TestCase):
     def test_register_view_get(self):
         """Test GET request to register view"""
         response = self.client.get(reverse('journal:register'))
-        
+
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context['form'], CustomUserCreationForm)
 
@@ -356,18 +356,18 @@ class UserAuthenticationViewsTestCase(TestCase):
             'password1': 'complexpass123',
             'password2': 'complexpass123'
         }
-        
+
         response = self.client.post(reverse('journal:register'), data)
-        
+
         # Check user was created
         new_user = User.objects.filter(username='newuser').first()
         self.assertIsNotNone(new_user)
         self.assertEqual(new_user.email, data['email'])
-        
+
         # Check redirect to dashboard
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('journal:dashboard'))
-        
+
         # Check success message
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
@@ -376,20 +376,20 @@ class UserAuthenticationViewsTestCase(TestCase):
     def test_home_view(self):
         """Test home view accessibility"""
         response = self.client.get(reverse('journal:home'))
-        
+
         self.assertEqual(response.status_code, 200)
 
     def test_profile_view_authenticated(self):
         """Test profile view for authenticated user"""
         self.client.login(username='testuser', password='testpass123')
         response = self.client.get(reverse('journal:profile'))
-        
+
         self.assertEqual(response.status_code, 200)
 
     def test_profile_view_unauthenticated(self):
         """Test profile view when not authenticated"""
         response = self.client.get(reverse('journal:profile'))
-        
+
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
             response,
@@ -418,7 +418,7 @@ class GratitudeEntryModelTestCase(TestCase):
             tags='testing, gratitude',
             is_private=False
         )
-        
+
         self.assertEqual(entry.user, self.user)
         self.assertEqual(entry.title, 'Test Entry')
         self.assertEqual(entry.content, 'I am grateful for comprehensive testing.')
@@ -432,7 +432,7 @@ class GratitudeEntryModelTestCase(TestCase):
             user=self.user,
             content='Minimal test entry.'
         )
-        
+
         self.assertEqual(entry.user, self.user)
         self.assertEqual(entry.content, 'Minimal test entry.')
         self.assertEqual(entry.mood, 'good')  # Default value
@@ -447,7 +447,7 @@ class GratitudeEntryModelTestCase(TestCase):
             title='Test Entry',
             content='Test content.'
         )
-        
+
         expected_str = (f"{self.user.username} - Test Entry "
                         f"({entry.created_at.strftime('%Y-%m-%d')})")
         self.assertEqual(str(entry), expected_str)
@@ -464,7 +464,7 @@ class GratitudeEntryModelTestCase(TestCase):
             title='Second Entry',
             content='Second content.'
         )
-        
+
         entries = list(GratitudeEntry.objects.all())
         self.assertEqual(entries[0], entry2)  # Newest first
         self.assertEqual(entries[1], entry1)

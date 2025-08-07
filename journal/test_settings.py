@@ -1,7 +1,7 @@
 """
 Test-specific Django settings to override static files configuration
 """
-from gratitude_journal.settings import *
+from gratitude_journal.settings import *  # noqa: F403, F401
 
 # Override static files settings for testing
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
@@ -14,15 +14,18 @@ DATABASES = {
     }
 }
 
+
 # Disable migrations for faster test runs
 class DisableMigrations:
     def __contains__(self, item):
         return True
-    
+
     def __getitem__(self, item):
         return None
 
+
 MIGRATION_MODULES = DisableMigrations()
+
 
 # Disable logging during tests
 LOGGING_CONFIG = None
